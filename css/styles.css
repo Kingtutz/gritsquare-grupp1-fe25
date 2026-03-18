@@ -1,0 +1,54 @@
+/*Theme colors*/
+.first-color { 
+	background: #93e4c1; 
+}
+	
+.second-color { 
+	background: #3baea0; 
+}
+
+.third-color { 
+	background: #118a7e; 
+}
+
+.fourth-color { 
+	background: #1f6f78; 
+}
+
+/*Darker Theme colors*/
+.first-color { 
+	background: #27296d; 
+}
+	
+.second-color { 
+	background: #5e63b6; 
+}
+
+.third-color { 
+	background: #a393eb; 
+}
+
+.fourth-color { 
+	background: #f5c7f7; 
+}
+
+/*Flower colors*/
+.first-color{
+    background: #f92a82;
+}
+
+.second-color{
+    background: #fde549;
+}
+
+.third-color{
+    background: #3d2eaf;
+}
+
+.fourth-color{
+    background: #ff7433;
+}
+
+.fith-color{
+    background: #c585b3;
+}
