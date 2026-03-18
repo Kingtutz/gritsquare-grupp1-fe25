@@ -25,13 +25,18 @@ export const getAll = async () => {
   const response = await fetch(url)
   if (!response.ok) throw new Error(response.status)
   const messages = await response.json()
+  console.log(messages)
   return messages
 }
 getAll()
 
 export const postMessage = async () => {
-  const newMessage = ''
-  console.log(newMessage)
+  const newMessage = {
+    message: 'hello',
+    name: 'Charlie',
+    likes: 0,
+    dislikes: 0
+  }
   const options = {
     method: 'POST',
     body: JSON.stringify(newMessage),
@@ -47,3 +52,5 @@ export const postMessage = async () => {
 
   return { id: newID.name, newMessage }
 }
+postMessage()
+getAll()
