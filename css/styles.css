@@ -1,4 +1,9 @@
 /*Theme colors*/
+body{
+    margin: 0;
+    padding: 0;
+}
+
 .first-color { 
 	background: #93e4c1; 
 }
@@ -52,3 +57,15 @@
 .fith-color{
     background: #c585b3;
 }
+
+.garden-wrapper{
+
+}
+
+.sky-wrapper{
+    margin: 0;
+    background-image: url(../img/skybackground.png);
+    height: 340px;
+    object-fit: fill;
+}
+
