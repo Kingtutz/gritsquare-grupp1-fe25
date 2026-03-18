@@ -1,24 +1,23 @@
 ## Kriterier för godkänt!
-1. Ha Läraren som collaborator för repository (Timearchitect).
-2. Skisser för hemsidan. (paper,photon) ska finnas på github repot också
-3. Mobilversion & desktopversion (responsive design, mobile first)
-4. Ha minst 4 flikar som funkar t.ex:, home,  [ api relaterad flik/ relevant ]   , contact , about us  
-5. Välj ett tema som t.ex: väder station, valutaväxel sida , nyhetssida.
-6. Hur mycket innehåll är rimlig på en sidan?  ( Exempel: 2 artiklar  https://www.aftonbladet.se/)
-7. Simpel grafisk profil & mockup (lägg i readme.md eller i github wikin).
-8. Dokumentation på github readme (gör ni VG ska ni ändå har dokumentation i readme som är mer generell),
-9. Ha synligt kontribuerade till kodbasen (i github insights)
-10. sidan ska vara bra designad generellt. (ingen old school 1992 webdesign)
-11. skriv en liten rapport om sammarbetet, github & ansvarsområden (hela gruppen 1 sida eller 200 ord individuellt ).
+1. Skapa ett "public messageboard" med features.
+2. Readme.md med sammanfattning  om projektet som förklarar core features.
+3. Skapa en skiss & lägg den i wikin också.
+4. Hemsidan ska minst ha 3 subsidor (hem, contacts, about us).
+5. Använda firebase REST API:et eller library för att spara meddelandedata.
+6. Sidan är hostad på github pages.
+7. Alla som besöker sidan kan skriva ett meddelande & visa den där på sidan. 
+8. Varje person (projektledaren excluderat) ska ha contributat till andra gruppers projekt minst 2 gång. (koden som man föreslår måste vara accepterad & finnas i resultatet + dem ska kreditas i wikin ).
+9. Projektledare ska man ha minst implementerat 3 features som kommer utanför sin grupp, externt.
+10. Ni ska ha en wiki med credits dokumenterat för alla som har tillfört med koder. 
+11. Alla i gruppen, ska minst ha 1 feature implementerad på sitt eget projekt.
+12. Presentera projektet 10 min per grupp ( om er roll , vilka features till andra grupper etc)
+13. Skriv 300 ord (om features som ni implementerade / github samarbetet , individuellt).
 
 ## Kriterier för Väl Godkänt!
-1. Wiki alla ska delta i sitt område, väl dokumenterad ( t.ex js har ni funktioner som gör saker så ska det dokumenteras ).
-2. webbsidan ska ha länkar till sociala medier, passande element & vara väldesignat.(argument för det dokumenterat)
-3. hostat på github pages.
-4. css animationer
-5. grundläggande SEO (taggar så det ökar chansen på att en sökmotor rakar den högt)
-6. Bilder med alt, <picture> tag i olika upplösningar.
-7. ha en dark/light mode & vältänkt design choices som ska vara dokumenterade (t.ex vi har SKRIKANDE blå gul färg för att det invokar svenskhet men
-8. också minimalistisk IKEA estetik som många förknippar med sverige därför är de gul blåa färgschemat reservat ).
-9. Ha minst 2 features/funktioner med api ( kallar på olika endpoints t.ex Flickr med olika storlekar eller sökfunktion)
-10. Hamburgarmeny.
+1. Som medlem ska ni vara contributor till andra gruppers projekt minst 4 gånger. (koden som man föreslår måste vara accepterad & finnas i resultatet, kan vara i samma projekt t.ex. 3 separata features + 1 till en annan grupp)
+2. Projektledare ska ha implementerat minst 6 pull requests från andra grupper.
+3. *Ert projekt ska ha responsive design & dark mode/light mode*. 
+4. *Ha en favicon*.
+5. Skriv 500 ord VG rapport (om features som ni implementerade / github samarbetet , individuellt).
+6. Någon form  mockup / wireframe / prototyp , (Ha dem i wikin också).
+7. Deploya den på githubpages eller vercel, netlify & render.

@@ -1,0 +1,8 @@
+footer{
+  display: flex;
+  justify-content: center;
+}
+img{
+  width: 25px;
+  justify-content: center;
+}
