@@ -1,5 +1,6 @@
 # Read me!!!
-
+## Pages
+https://kingtutz.github.io/gritsquare-grupp1-fe25/
 ## Garden Gathering
 Garden Gathering is a web application that is a place for people to read and post messages on a garden themed page.
 We are focused on keeping a calm and cozy vibe.
