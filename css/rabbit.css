@@ -1,0 +1,29 @@
+#spawn-rabbit-btn {
+	position: fixed;
+	right: 16px;
+	bottom: 24px;
+	z-index: 1001;
+	padding: 10px 14px;
+	border: 2px solid #222;
+	border-radius: 10px;
+	background: #ffffff;
+	color: #111;
+	font-weight: 700;
+	cursor: pointer;
+	box-shadow: 0 4px 0 #111;
+}
+
+#spawn-rabbit-btn:active {
+	transform: translateY(2px);
+	box-shadow: 0 2px 0 #111;
+}
+
+.garden-rabbit {
+	position: absolute;
+	width: 48px;
+	height: 48px;
+	image-rendering: pixelated;
+	transition: left 1.2s linear, top 1.2s linear, transform 0.25s ease;
+	pointer-events: none;
+	z-index: 4;
+}

@@ -6,7 +6,13 @@ export function addStyling () {
   const fontHref =
     'https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap'
 
-  const cssFiles = ['styles.css', 'footer.css', 'header.css', 'formstyling.css']
+  const cssFiles = [
+    'styles.css',
+    'footer.css',
+    'header.css',
+    'formstyling.css',
+    'rabbit.css'
+  ]
 
   const existingFont = document.head.querySelector(
     `link[data-google-font="pixelify-sans"]`

@@ -3,9 +3,15 @@ const RABBIT_SIZE = 48
 const isInSitesFolder = () =>
   window.location.pathname.toLowerCase().includes('/sites/')
 
-const rabbitSrc = isInSitesFolder()
-  ? '../img/pixel-rabbit-rabbit.gif'
-  : './img/pixel-rabbit-rabbit.gif'
+const ANIMAL_GIFS = ['pixel-rabbit-rabbit.gif', 'bee-pixel.gif']
+
+const basePath = isInSitesFolder() ? '../img/animals' : './img/animals'
+
+function getRandomAnimalSrc () {
+  const randomAnimal =
+    ANIMAL_GIFS[Math.floor(Math.random() * ANIMAL_GIFS.length)]
+  return `${basePath}/${randomAnimal}`
+}
 
 function randomPosition (garden, size) {
   const maxLeft = Math.max(garden.clientWidth - size, 0)
@@ -38,9 +44,10 @@ function spawnRabbit (garden) {
 
   const rabbit = document.createElement('img')
   const start = randomPosition(garden, RABBIT_SIZE)
+  const animalSrc = getRandomAnimalSrc()
 
-  rabbit.src = rabbitSrc
-  rabbit.alt = 'White pixel rabbit'
+  rabbit.src = animalSrc
+  rabbit.alt = 'Random garden animal'
   rabbit.className = 'garden-rabbit'
   rabbit.style.left = `${start.x}px`
   rabbit.style.top = `${start.y}px`
@@ -69,7 +76,7 @@ export function initRabbitControl () {
   const button = document.createElement('button')
   button.id = 'spawn-rabbit-btn'
   button.type = 'button'
-  button.textContent = 'Spawn Rabbit'
+  button.textContent = 'Spawn Animal'
 
   button.addEventListener('click', () => {
     spawnRabbit(garden)

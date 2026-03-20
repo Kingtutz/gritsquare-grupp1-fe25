@@ -1,14 +1,28 @@
-footer{
+footer {
   display: flex;
   justify-content: center;
+  align-items: center;
   background-color: brown;
-  background-image: url(../img/backgounds/dirt.png) ;
+  background-image: url(../img/backgounds/dirt.png);
   background-size: 100px;
   background-repeat: repeat-x;
   height: 50px;
 }
-img{
-  width: 25px;
+
+.footer {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.footer a {
+  display: inline-flex;
+  align-items: center;
   justify-content: center;
-  margin-top: 15px;
+}
+
+.footer img {
+  width: 25px;
+  height: 25px;
+  display: block;
 }
