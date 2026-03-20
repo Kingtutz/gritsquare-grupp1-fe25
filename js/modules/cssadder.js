@@ -2,7 +2,6 @@ export function addStyling () {
   const isInSitesFolder = () =>
     window.location.pathname.toLowerCase().includes('/sites/')
 
-  // Determine the correct base path
   const basePath = isInSitesFolder() ? '../css/' : './css/'
 
   const cssFiles = ['styles.css', 'footer.css', 'header.css', 'formstyling.css']

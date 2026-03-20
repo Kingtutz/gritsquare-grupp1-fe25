@@ -33,14 +33,14 @@
 
 .garden-wrapper{
 	margin: 0;
-	background-image: url(../img/pixelgarden.png);
+	background-image: url(../img/backgounds/pixelgarden.png);
 	height: 800px;
 	object-fit: contain;
 }
 
 .garden-wrapper-darkmode{
 	margin: 0;
-	background-image: url(../img/pixelgarden.png);
+	background-image: url(../img/backgounds/pixelgarden.png);
 	height: 800px;
 	object-fit: contain;
 	
@@ -48,7 +48,7 @@
 
 .sky-wrapper{
 	margin: 0;
-	background-image: url(../img/skybackground.png);
+	background-image: url(../img/backgounds/skybackground.png);
 	width: 100%;
 	height: min(340px, 45vw);
 	min-height: 220px;
@@ -68,7 +68,7 @@
 
 .sky-wrapper-darkmode{
 	margin: 0;
-	background-image: url(../img/pixelnightsky.jpg);
+	background-image: url(../img/backgounds/pixelnightsky.jpg);
 	width: 100%;
 	height: min(340px, 45vw);
 	min-height: 220px;

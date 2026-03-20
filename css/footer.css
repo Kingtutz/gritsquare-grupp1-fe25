@@ -2,7 +2,7 @@ footer{
   display: flex;
   justify-content: center;
   background-color: brown;
-  background-image: url(../img/dirt.png) ;
+  background-image: url(../img/backgounds/dirt.png) ;
   background-size: 60px;
   background-repeat: repeat-x;
 }

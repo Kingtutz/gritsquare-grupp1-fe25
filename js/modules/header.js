@@ -6,14 +6,16 @@ const getDefaultLinks = () => {
     return [
       { label: 'Messageboard', href: '../index.html' },
       { label: 'About', href: './about.html' },
-      { label: 'Contact', href: './contact.html' }
+      { label: 'Contact', href: './contact.html' },
+      { label: 'Plant flower', href: './contact.html' }
     ]
   }
 
   return [
     { label: 'Messageboard', href: './index.html' },
     { label: 'About', href: './sites/about.html' },
-    { label: 'Contact', href: './sites/contact.html' }
+    { label: 'Contact', href: './sites/contact.html' },
+    { label: 'Plant a flower', href: './sites/contact.html' }
   ]
 }
 
@@ -25,8 +27,8 @@ export const renderHeader = links => {
 
   // Determine correct image path based on location
   const imagePath = isInSitesFolder()
-    ? '../img/pixlecloud.png'
-    : 'img/pixlecloud.png'
+    ? '../img/icons/pixlecloud.png'
+    : 'img/icons/pixlecloud.png'
 
   const header = document.createElement('header')
   header.dataset.generatedHeader = 'true'
