@@ -12,6 +12,7 @@
 3. Be able to answer a post, this should appear as a comment under the original post.
 4. Be able to like/dislike posts and answers. This should show as a heart with numbers och a weeds around the flower. If a post gets 10 dislikes it should be shown as a withering flower.
 5. cursor should be a bee so you can flyaround and polinate the flowers!
+6. Add a postbox that will give you notifications if you have recieved a comment on one of your posts or answers. This should be right outside your cabin (if cabin is implemeted). 
 
 
 ## Features we want!
