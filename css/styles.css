@@ -92,6 +92,17 @@
 	object-fit: contain;
 }
 
+.flower-popup-name {
+	margin: 0;
+	font-size: 1.1rem;
+}
+
+.flower-popup-message {
+	margin: 0;
+	text-align: center;
+	max-width: 240px;
+}
+
 .flower-popup-close {
 	align-self: flex-end;
 	background: none;

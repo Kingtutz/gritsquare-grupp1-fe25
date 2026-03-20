@@ -5,11 +5,11 @@ import { initHeaderOnLoad } from './modules/header.js'
 import { addStyling } from './modules/cssadder.js'
 
 async function initPage () {
-	initHeaderOnLoad()
-	await addStyling()
-	renderFlowers()
-	await getAll()
-	renderPost()
+  initHeaderOnLoad()
+  await addStyling()
+  const data = await getAll()
+  renderFlowers(data)
+  renderPost()
 }
 
 initPage()
