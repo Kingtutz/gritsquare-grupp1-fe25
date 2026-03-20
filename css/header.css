@@ -75,7 +75,7 @@ nav a p {
 
   nav a p {
 	position: absolute;
-	top: 58%;
+	top: 70%;
 	left: 50%;
 	transform: translate(-50%, -50%);
 	margin: 0;
@@ -112,10 +112,11 @@ nav a p {
     flex-shrink: 0;
     overflow: hidden;
   }
+
   nav a p {
-    font-size: 8px;
+    font-size: 0.4rem;
     position: absolute;
-    top: 32%;
+    top: 40%;
     left: 50%;
     transform: translate(-50%, -50%);
     margin: 0;
