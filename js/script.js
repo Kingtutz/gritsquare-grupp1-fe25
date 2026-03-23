@@ -1,1 +1,1 @@
-import { getAll, postMessage } from './firebase/firebase'
+import { getAll, postMessage } from './firebase/messages.js'

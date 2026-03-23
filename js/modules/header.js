@@ -1,5 +1,4 @@
 import { createFlowerForm } from './messageForm.js'
-import { searchUser } from '../search.js'
 
 const isInSitesFolder = () =>
   window.location.pathname.toLowerCase().includes('/sites/')
@@ -10,7 +9,8 @@ const getDefaultLinks = () => {
       { label: 'Messageboard', href: '../index.html' },
       { label: 'About', href: './about.html' },
       { label: 'Contact', href: './contact.html' },
-      { label: 'Plant flower', href: './contact.html' }
+      { label: 'Plant flower', href: '#' },
+      { label: 'Search', href: '#' }
     ]
   }
 
@@ -19,7 +19,7 @@ const getDefaultLinks = () => {
     { label: 'About', href: './sites/about.html' },
     { label: 'Contact', href: './sites/contact.html' },
     { label: 'Plant flower', href: '#' },
-     { label: 'Search', href: '#' }
+    { label: 'Search', href: '#' }
   ]
 }
 
