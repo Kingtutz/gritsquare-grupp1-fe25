@@ -2,12 +2,13 @@ import { getAll } from './firebase/messages.js'
 import { renderFlowers } from './rendering/renderflowers.js'
 
 const garden = document.querySelector('.garden-wrapper')
-const searchForm = document.querySelector('#searchForm')
+//const searchForm = document.querySelector('#searchForm')
 
 export const searchUser = async () => {
   const all = await getAll()
 
   const form = document.createElement('form')
+  form.id = "searchForm"
 
   const input = document.createElement('input')
   input.type = 'text'
@@ -19,7 +20,7 @@ export const searchUser = async () => {
 
   form.appendChild(input)
   form.appendChild(searchBtn)
-  searchForm.appendChild(form)
+  garden.appendChild(form)
 
   form.addEventListener('submit', e => {
     e.preventDefault()

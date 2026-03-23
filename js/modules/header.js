@@ -49,6 +49,16 @@ export const renderHeader = links => {
       })
     }
 
+   if (label === 'Search') {
+      anchor.addEventListener('click', e => {
+        e.preventDefault()
+        if(!document.querySelector('#searchForm'))
+        searchUser()
+     
+      })
+    }
+
+
     const background = document.createElement('img')
     const p = document.createElement('p')
     background.src = imagePath
