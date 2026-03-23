@@ -21,4 +21,5 @@ export const showAdVideo = () => {
     container.append(video, closeBtn);
     overlay.appendChild(container);
     document.body.appendChild(overlay);
+
 };
