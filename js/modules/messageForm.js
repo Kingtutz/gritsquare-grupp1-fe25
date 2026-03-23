@@ -1,4 +1,5 @@
 import { postMessage } from '../firebase/firebase.js'
+import { getUsername } from './username.js'
 
 export const createFlowerForm = () => {
   const wrapper = document.createElement('div')
@@ -21,6 +22,7 @@ export const createFlowerForm = () => {
 
   const name = document.createElement('input')
   name.placeholder = 'Name'
+  name.value = getUsername()
 
   const button = document.createElement('button')
   button.textContent = 'Send!'

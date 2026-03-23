@@ -32,3 +32,102 @@
   align-self: flex-end;
   padding: 5px;
 }
+
+/* Username prompt */
+#username-prompt-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+.username-prompt-box {
+  background: #fff;
+  border: 2px solid #222;
+  border-radius: 14px;
+  padding: 36px 32px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 300px;
+  max-width: 90vw;
+  box-shadow: 0 8px 0 #111;
+}
+
+.username-prompt-heading {
+  margin: 0;
+  font-size: 1.4rem;
+  text-align: center;
+}
+
+.username-prompt-label {
+  font-size: 0.95rem;
+  text-align: center;
+  color: #444;
+}
+
+.username-prompt-input {
+  padding: 10px 12px;
+  border: 2px solid #222;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: inherit;
+  outline: none;
+}
+
+.username-prompt-input:focus {
+  border-color: #4a7c59;
+  box-shadow: 0 0 0 3px rgba(74, 124, 89, 0.2);
+}
+
+.username-prompt-error {
+  color: #c0392b;
+  font-size: 0.85rem;
+  margin-top: -6px;
+}
+
+.username-prompt-btn {
+  margin-top: 4px;
+  padding: 10px 14px;
+  border: 2px solid #222;
+  border-radius: 10px;
+  background: #ffffff;
+  color: #111;
+  font-family: inherit;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  box-shadow: 0 4px 0 #111;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+.username-prompt-btn:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 #111;
+}
+
+.username-prompt-confirm-wrapper[hidden] {
+  display: none;
+}
+
+.username-prompt-toggle {
+  margin: 0;
+  text-align: center;
+  font-size: 0.85rem;
+  color: #555;
+}
+
+.username-prompt-toggle-link {
+  background: none;
+  border: none;
+  padding: 0;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: 700;
+  color: #4a7c59;
+  cursor: pointer;
+  text-decoration: underline;
+}
