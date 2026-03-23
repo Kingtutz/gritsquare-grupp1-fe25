@@ -1,5 +1,6 @@
 import { createFlowerForm } from './messageForm.js'
 import { logout, getUsername, initUsernamePrompt } from './username.js'
+import { searchUser, resetSearchFilter } from '../search.js'
 
 const isInSitesFolder = () =>
   window.location.pathname.toLowerCase().includes('/sites/')
@@ -50,6 +51,15 @@ export const renderHeader = links => {
     navLinks.push({ label: 'Logout', href: '#' })
   }
 
+  const clearSearchButton = document.createElement('button')
+  clearSearchButton.textContent = 'Show all flowers'
+  clearSearchButton.addEventListener('click', async e => {
+    e.preventDefault()
+    await resetSearchFilter()
+    menuContent.classList.remove('open')
+  })
+  menuContent.append(clearSearchButton)
+
   navLinks.forEach(({ label, href }) => {
     // Create Logout as a button instead of a cloud
     if (label === 'Logout') {
@@ -80,7 +90,7 @@ export const renderHeader = links => {
     if (label === 'Search') {
       anchor.addEventListener('click', e => {
         e.preventDefault()
-        if (!document.querySelector('#searchForm')) searchUser()
+        searchUser()
       })
     }
 
