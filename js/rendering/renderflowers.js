@@ -14,6 +14,74 @@ const FLOWER_IMAGES = [
   `${basePath}/yellowFlower.png`
 ]
 
+function clamp (value, min, max) {
+  return Math.min(Math.max(value, min), max)
+}
+
+function enableFlowerDragging (flower, garden) {
+  let pointerId = null
+  let startPointerX = 0
+  let startPointerY = 0
+  let startLeft = 0
+  let startTop = 0
+  let didDrag = false
+  const dragThreshold = 3
+
+  flower.addEventListener('pointerdown', event => {
+    pointerId = event.pointerId
+    startPointerX = event.clientX
+    startPointerY = event.clientY
+    startLeft = parseFloat(flower.style.left || '0')
+    startTop = parseFloat(flower.style.top || '0')
+    didDrag = false
+    flower.setPointerCapture(pointerId)
+  })
+
+  flower.addEventListener('pointermove', event => {
+    if (pointerId !== event.pointerId) {
+      return
+    }
+
+    const deltaX = event.clientX - startPointerX
+    const deltaY = event.clientY - startPointerY
+
+    if (!didDrag && Math.abs(deltaX) + Math.abs(deltaY) >= dragThreshold) {
+      didDrag = true
+    }
+
+    if (!didDrag) {
+      return
+    }
+
+    const maxLeft = Math.max(garden.clientWidth - FLOWER_SIZE, 0)
+    const maxTop = Math.max(garden.clientHeight - FLOWER_SIZE, 0)
+
+    flower.style.left = `${clamp(startLeft + deltaX, 0, maxLeft)}px`
+    flower.style.top = `${clamp(startTop + deltaY, 0, maxTop)}px`
+  })
+
+  function finishDrag (event) {
+    if (pointerId !== event.pointerId) {
+      return
+    }
+
+    if (flower.hasPointerCapture(pointerId)) {
+      flower.releasePointerCapture(pointerId)
+    }
+
+    pointerId = null
+  }
+
+  flower.addEventListener('pointerup', finishDrag)
+  flower.addEventListener('pointercancel', finishDrag)
+
+  return () => {
+    const wasDragged = didDrag
+    didDrag = false
+    return wasDragged
+  }
+}
+
 export function renderFlower (imageSrc = DEFAULT_FLOWER_IMAGE, data = null) {
   const garden =
     document.getElementById('garden') ??
@@ -38,9 +106,24 @@ export function renderFlower (imageSrc = DEFAULT_FLOWER_IMAGE, data = null) {
   flower.style.height = `${FLOWER_SIZE}px`
   flower.style.left = randomLeft
   flower.style.top = randomTop
+  flower.draggable = false
+
+  const hoverTitle =
+    typeof data?.title === 'string' && data.title.trim().length > 0
+      ? data.title.trim()
+      : 'Untitled post'
+  flower.title = hoverTitle
+
+  const consumeDragState = enableFlowerDragging(flower, garden)
 
   garden.append(flower)
-  flower.addEventListener('click', () => openFlowerPopup(imageSrc, data))
+  flower.addEventListener('click', () => {
+    if (consumeDragState()) {
+      return
+    }
+
+    openFlowerPopup(imageSrc, data)
+  })
 
   return flower
 }

@@ -24,6 +24,7 @@
 	height: 48px;
 	image-rendering: pixelated;
 	transition: left 1.2s linear, top 1.2s linear, transform 0.25s ease-in-out;
-	pointer-events: none;
+	pointer-events: auto;
+	cursor: pointer;
 	z-index: 4;
 }

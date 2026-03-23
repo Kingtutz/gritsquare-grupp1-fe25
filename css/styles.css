@@ -126,6 +126,7 @@ html.dark-mode .garden-wrapper{
 	height: 64px;
 	object-fit: contain;
 	cursor: pointer;
+	touch-action: none;
 }
 .garden-flower:hover{
 	cursor: url(../img/cursors/cursorcan128.png) 35 100, pointer;

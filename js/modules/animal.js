@@ -3,7 +3,12 @@ const animalSize = 48
 const isInSitesFolder = () =>
   window.location.pathname.toLowerCase().includes('/sites/')
 
-const ANIMAL_GIFS = ['pixel-rabbit-rabbit.gif', 'bee-pixel.gif', 'fox.gif']
+const ANIMAL_GIFS = [
+  'pixel-rabbit-rabbit.gif',
+  'bee-pixel.gif',
+  'fox.gif',
+  'horse.gif'
+]
 
 const basePath = isInSitesFolder() ? '../img/animals' : './img/animals'
 
@@ -51,10 +56,18 @@ function spawnAnimal (garden) {
   animal.className = 'garden-animal'
   animal.style.left = `${start.x}px`
   animal.style.top = `${start.y}px`
+  let moveIntervalId = null
+
+  animal.addEventListener('click', () => {
+    if (moveIntervalId !== null) {
+      window.clearInterval(moveIntervalId)
+    }
+    animal.remove()
+  })
 
   garden.append(animal)
 
-  window.setInterval(() => {
+  moveIntervalId = window.setInterval(() => {
     moveAnimal(animal, garden)
   }, 2000)
 }
