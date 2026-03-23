@@ -34,7 +34,10 @@ export const postMessage = async (message, name, title) => {
   const newMessage = {
     message: message,
     name: name,
-    title: title
+    title: title,
+    likes: 0,
+    dislikes: 0,
+    answer: { name: '', message: '', likes: 0, dislikes: 0 }
   }
   const options = {
     method: 'POST',

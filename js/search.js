@@ -1,4 +1,4 @@
-import { getAll } from './firebase/firebase.js'
+import { getAll } from './firebase/messages.js'
 import { renderFlowers } from './rendering/renderflowers.js'
 
 const garden = document.querySelector('.garden-wrapper')
@@ -38,7 +38,6 @@ export const searchUser = async () => {
         filteredUsers[key] = users
       }
     }
-
     const flowers = renderFlowers(filteredUsers)
     garden.innerHTML = ''
     flowers.forEach(flower => {

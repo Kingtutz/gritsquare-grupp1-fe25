@@ -1,4 +1,4 @@
-import { getAll } from './firebase/firebase.js'
+import { getAll } from './firebase/messages.js'
 import { renderFlowers } from './rendering/renderflowers.js'
 import { renderPost } from './rendering/renderpost.js'
 import { initHeaderOnLoad } from './modules/header.js'
