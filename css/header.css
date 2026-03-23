@@ -172,3 +172,129 @@ nav a p {
   }
 }
 
+/* Hamburger Menu Styles */
+.hamburger-menu-container {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  z-index: 1000;
+}
+
+.hamburger-btn {
+  background-color: #ffffff;
+  color: #111;
+  border: 2px solid #222;
+  border-radius: 10px;
+  padding: 8px 14px;
+  font-size: 20px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  box-shadow: 0 4px 0 #111;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+.hamburger-btn:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 #111;
+}
+
+.hamburger-btn:hover {
+  background-color: #f0f0f0;
+}
+
+html.dark-mode .hamburger-btn {
+  background-color: #2a2a2a;
+  color: #e0e0e0;
+  border-color: #e0e0e0;
+  box-shadow: 0 4px 0 #e0e0e0;
+}
+
+html.dark-mode .hamburger-btn:active {
+  box-shadow: 0 2px 0 #e0e0e0;
+}
+
+.hamburger-menu-content {
+  display: none;
+  position: absolute;
+  top: 55px;
+  right: 0;
+  background-color: white;
+  border: 2px solid #222;
+  border-radius: 10px;
+  box-shadow: 0 4px 0 #111;
+  min-width: 200px;
+  padding: 10px;
+  flex-direction: column;
+  gap: 8px;
+}
+
+html.dark-mode .hamburger-menu-content {
+  background-color: #2a2a2a;
+  border-color: #e0e0e0;
+  box-shadow: 0 4px 0 #e0e0e0;
+}
+
+.hamburger-menu-content.open {
+  display: flex;
+}
+
+.hamburger-menu-content button {
+  width: 100%;
+  display: block;
+  padding: 10px 14px;
+  border: 2px solid #222;
+  border-radius: 10px;
+  background-color: #ffffff;
+  color: #111;
+  font-family: inherit;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  box-shadow: 0 4px 0 #111;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+  margin: 0;
+  text-align: left;
+  position: relative ;
+  right: auto ;
+  bottom: auto ;
+  top: auto ;
+  left: auto ;
+  z-index: auto ;
+}
+
+.hamburger-menu-content button:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 #111;
+}
+
+.hamburger-menu-content button:hover {
+  background-color: #f0f0f0;
+}
+
+html.dark-mode .hamburger-menu-content button {
+  background-color: #2a2a2a !important;
+  color: #e0e0e0;
+  border-color: #e0e0e0;
+  box-shadow: 0 4px 0 #e0e0e0 !important;
+}
+
+html.dark-mode .hamburger-menu-content button:active {
+  box-shadow: 0 2px 0 #e0e0e0 !important;
+}
+
+html.dark-mode .hamburger-menu-content button:hover {
+  background-color: #3a3a3a !important;
+}
+
+/* Reset fixed positioning for buttons placed inside the menu */
+.hamburger-menu-content #spawn-animal-btn {
+  position: relative;
+  right: auto;
+  bottom: auto;
+  top: auto;
+  left: auto;
+  z-index: auto;
+  margin: 0;
+}
+

@@ -96,9 +96,14 @@ export function initAnimalControl () {
     spawnAnimal(garden)
   })
 
-  if (isInSitesFolder()) {
-    button.classList.add('spawn-animal-btn-sites')
+  // Try to add to hamburger menu, fallback to body
+  const menuContent = document.querySelector('.hamburger-menu-content')
+  if (menuContent) {
+    menuContent.append(button)
+  } else {
+    if (isInSitesFolder()) {
+      button.classList.add('spawn-animal-btn-sites')
+    }
+    document.body.append(button)
   }
-
-  document.body.append(button)
 }

@@ -1,22 +1,76 @@
 import { getAll } from './firebase/firebase.js'
 import { renderFlowers } from './rendering/renderflowers.js'
 
+function getGarden () {
+  return (
+    document.getElementById('garden') ??
+    document.querySelector('.garden-wrapper')
+  )
+}
 
-const garden = document.querySelector('#garden')
-const searchForm = document.querySelector('#search')
+function getSearchMount () {
+  return document.querySelector('[data-generated-header="true"]')
+}
+
+function clearRenderedFlowers (garden) {
+  garden.querySelectorAll('.garden-flower').forEach(flower => flower.remove())
+}
+
+async function renderSearchResults (data) {
+  const garden = getGarden()
+
+  if (!garden) {
+    return
+  }
+
+  clearRenderedFlowers(garden)
+
+  const flowers = renderFlowers(data)
+  flowers.forEach(flower => {
+    garden.appendChild(flower)
+  })
+}
+
+export const resetSearchFilter = async () => {
+  const existingForm = document.getElementById('searchForm')
+  if (existingForm) {
+    existingForm.remove()
+  }
+
+  const all = await getAll()
+  await renderSearchResults(all)
+}
 
 export const searchUser = async () => {
-  console.log(searchForm)
-  console.log(garden)
-  const all = await getAll()
+  const existingForm = document.getElementById('searchForm')
+  if (existingForm) {
+    if (existingForm.tagName !== 'FORM') {
+      existingForm.remove()
+    } else {
+      const existingInput = existingForm.querySelector('input')
+      if (existingInput) {
+        existingInput.focus()
+        existingInput.select()
+      }
+      return
+    }
+  }
+
+  const garden = getGarden()
+  const searchMount = getSearchMount()
+
+  if (!garden || !searchMount) {
+    return
+  }
 
   const form = document.createElement('form')
-  form.id = "searchForm"
+  form.id = 'searchForm'
 
 
   const input = document.createElement('input')
   input.type = 'text'
-  input.placeholder = 'Search'
+  input.placeholder = 'Search by username'
+  input.setAttribute('aria-label', 'Search by username')
 
   const searchBtn = document.createElement('button')
   searchBtn.type = 'submit'
@@ -25,24 +79,23 @@ export const searchUser = async () => {
 
   form.appendChild(input)
   form.appendChild(searchBtn)
-  searchForm.appendChild(form)
+  searchMount.appendChild(form)
+  input.focus()
 
-
-
-  form.addEventListener('submit', e => {
+  form.addEventListener('submit', async e => {
     e.preventDefault()
 
-    const search = input.value.toLowerCase()
+    searchBtn.disabled = true
+
+    const search = input.value.trim().toLowerCase()
+
+    const all = await getAll()
 
     const filteredUsers = {}
 
-    console.log(search)
-
     for (const key in all) {
       const users = all[key]
-      //console.log(names)
-      if (users.name.toLowerCase() === search) {
-        console.log(input.value)
+      if (users.name.toLowerCase().includes(search)) {
         filteredUsers[key] = users
       }
       garden.innerHTML = ''
@@ -53,11 +106,9 @@ export const searchUser = async () => {
         garden.appendChild(notAUser)
       }
     }
-    const flowers = renderFlowers(filteredUsers)
-   // garden.innerHTML = ''
-    flowers.forEach(flower => {
-      garden.appendChild(flower)
-    })
-    input.value = ''
+
+    await renderSearchResults(filteredUsers)
+
+    form.remove()
   })
 }

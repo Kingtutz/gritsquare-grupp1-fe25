@@ -92,6 +92,13 @@ export function initTheme () {
     disableCycleBtn.textContent = 'Enable day/night cycle'
   })
 
-  document.body.append(btn)
-  document.body.append(disableCycleBtn)
+  // Try to add to hamburger menu, fallback to body
+  const menuContent = document.querySelector('.hamburger-menu-content')
+  if (menuContent) {
+    menuContent.append(btn)
+    menuContent.append(disableCycleBtn)
+  } else {
+    document.body.append(btn)
+    document.body.append(disableCycleBtn)
+  }
 }

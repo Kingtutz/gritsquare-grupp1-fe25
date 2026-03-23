@@ -18,6 +18,17 @@
 	box-shadow: 0 2px 0 #111;
 }
 
+html.dark-mode #spawn-animal-btn {
+	background: #2a2a2a;
+	color: #e0e0e0;
+	border-color: #e0e0e0;
+	box-shadow: 0 4px 0 #e0e0e0;
+}
+
+html.dark-mode #spawn-animal-btn:active {
+	box-shadow: 0 2px 0 #e0e0e0;
+}
+
 .garden-animal {
 	position: absolute;
 	width: 48px;

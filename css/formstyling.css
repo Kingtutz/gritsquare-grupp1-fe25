@@ -143,6 +143,17 @@
   box-shadow: 0 2px 0 #111;
 }
 
+html.dark-mode .username-prompt-btn {
+  background: #2a2a2a;
+  color: #e0e0e0;
+  border-color: #e0e0e0;
+  box-shadow: 0 4px 0 #e0e0e0;
+}
+
+html.dark-mode .username-prompt-btn:active {
+  box-shadow: 0 2px 0 #e0e0e0;
+}
+
 .username-prompt-confirm-wrapper[hidden] {
   display: none;
 }
