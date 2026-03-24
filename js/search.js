@@ -101,7 +101,7 @@ export const searchUser = async () => {
 
     for (const key in all) {
       const users = all[key]
-      if (users.name.toLowerCase().includes(search)) {
+      if (users.name.toLowerCase() === search) {
         filteredUsers[key] = users
       }
     }
