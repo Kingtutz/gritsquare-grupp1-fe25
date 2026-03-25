@@ -477,14 +477,6 @@ function buildReplyForm ({ postId, data, onReplySaved }) {
   const form = document.createElement('form')
   form.className = 'flower-popup-reply-form'
 
-  const replyName = document.createElement('input')
-  replyName.type = 'text'
-  replyName.name = 'reply-name'
-  replyName.maxLength = 64
-  replyName.required = true
-  replyName.placeholder = 'Your name'
-  replyName.value = getUsername()
-
   const replyMessage = document.createElement('textarea')
   replyMessage.name = 'reply-message'
   replyMessage.maxLength = 180
@@ -503,17 +495,23 @@ function buildReplyForm ({ postId, data, onReplySaved }) {
   status.hidden = true
 
   actions.append(submit, status)
-  form.append(replyName, replyMessage, actions)
+  form.append(replyMessage, actions)
 
   form.addEventListener('submit', async event => {
     event.preventDefault()
 
-    const nameValue = censorBadWords(replyName.value.trim())
+    const nameValue = censorBadWords(getUsername().trim())
     const messageValue = censorBadWords(replyMessage.value.trim())
 
-    if (!nameValue || !messageValue) {
+    if (!nameValue) {
       status.hidden = false
-      status.textContent = 'Please enter both name and reply.'
+      status.textContent = 'You need to be logged in to reply.'
+      return
+    }
+
+    if (!messageValue) {
+      status.hidden = false
+      status.textContent = 'Please enter a reply.'
       return
     }
 

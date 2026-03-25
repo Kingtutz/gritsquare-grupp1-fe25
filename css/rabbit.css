@@ -1,8 +1,8 @@
 #spawn-animal-btn {
 	position: fixed;
-	right: 16px;
-	bottom: 24px;
-	z-index: var(--z-floating-ui);
+	right: max(16px, env(safe-area-inset-right));
+	bottom: max(24px, env(safe-area-inset-bottom));
+	z-index: calc(var(--z-popup) - 1);
 	padding: 10px 14px;
 	border: 2px solid #222;
 	border-radius: 10px;
@@ -35,7 +35,7 @@ html.dark-mode #spawn-animal-btn:active {
 
 .spawn-animal-limit-prompt {
 	position: fixed;
-	z-index: calc(var(--z-floating-ui) + 1);
+	z-index: calc(var(--z-popup) - 1);
 	padding: 8px 10px;
 	border: 2px solid #222;
 	border-radius: 8px;
@@ -75,4 +75,12 @@ html.dark-mode .spawn-animal-limit-prompt {
 	pointer-events: auto;
 	cursor: pointer;
 	z-index: 4;
+}
+
+@media (max-width: 600px) {
+	#spawn-animal-btn {
+		right: max(10px, env(safe-area-inset-right));
+		bottom: max(12px, env(safe-area-inset-bottom));
+		padding: 9px 12px;
+	}
 }
