@@ -43,6 +43,62 @@ export const subscribeToMessages = onData => {
   })
 }
 
+export const setUserOnlineState = async (username, isOnline, options = {}) => {
+  const cleanUsername = String(username || '').trim()
+  if (!cleanUsername) {
+    return
+  }
+
+  const onlineResponse = await fetch(
+    `${usersUrl}/${encodeURIComponent(cleanUsername)}/online.json`,
+    {
+      method: 'PUT',
+      body: JSON.stringify(Boolean(isOnline)),
+      headers: {
+        'Content-type': 'application/json; charset=UTF-8'
+      },
+      keepalive: Boolean(options.keepalive)
+    }
+  )
+
+  if (!onlineResponse.ok) {
+    throw new Error(onlineResponse.status)
+  }
+
+  const lastSeenResponse = await fetch(
+    `${usersUrl}/${encodeURIComponent(cleanUsername)}/lastSeen.json`,
+    {
+      method: 'PUT',
+      body: JSON.stringify(Date.now()),
+      headers: {
+        'Content-type': 'application/json; charset=UTF-8'
+      },
+      keepalive: Boolean(options.keepalive)
+    }
+  )
+
+  if (!lastSeenResponse.ok) {
+    throw new Error(lastSeenResponse.status)
+  }
+}
+
+export const subscribeToOnlineUsers = onData => {
+  if (typeof onData !== 'function') {
+    return () => {}
+  }
+
+  const usersDbRef = ref(db, '/users')
+  return onValue(usersDbRef, snapshot => {
+    const users = snapshot.val() || {}
+    const onlineUsers = Object.entries(users)
+      .filter(([, user]) => Boolean(user?.online))
+      .map(([name]) => name)
+      .sort((a, b) => a.localeCompare(b))
+
+    onData(onlineUsers)
+  })
+}
+
 export const postMessage = async (message, name, title) => {
   const newMessage = {
     message: message,

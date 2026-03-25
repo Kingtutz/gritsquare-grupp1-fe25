@@ -1,6 +1,9 @@
 import { createFlowerForm } from './messageForm.js'
 import { logout, getUsername, initUsernamePrompt } from './username.js'
 import { searchUser, resetSearchFilter } from '../search.js'
+import { subscribeToOnlineUsers } from '../firebase/firebase.js'
+
+let unsubscribeOnlineUsers = null
 
 const isInSitesFolder = () =>
   window.location.pathname.toLowerCase().includes('/sites/')
@@ -42,7 +45,12 @@ export const renderHeader = () => {
   const nav = document.createElement('nav')
 
   // Create hamburger menu first so buttons can be added to it
-  const menuContent = createMenu(header)
+  const { menuContent, menuButton } = createMenu(header)
+
+  const onlineCountBadge = document.createElement('span')
+  onlineCountBadge.className = 'hamburger-online-count'
+  onlineCountBadge.hidden = true
+  menuButton.append(onlineCountBadge)
 
   const username = getUsername()
 
@@ -106,6 +114,16 @@ export const renderHeader = () => {
   })
   menuContent.append(clearSearchButton)
 
+  attachOnlineUsersSection(menuContent, onlineUsers => {
+    if (onlineUsers.length > 0) {
+      onlineCountBadge.hidden = false
+      onlineCountBadge.textContent = String(onlineUsers.length)
+    } else {
+      onlineCountBadge.hidden = true
+      onlineCountBadge.textContent = ''
+    }
+  })
+
   if (username) {
     const logoutButton = document.createElement('button')
     logoutButton.type = 'button'
@@ -113,9 +131,7 @@ export const renderHeader = () => {
     logoutButton.addEventListener('click', e => {
       e.preventDefault()
       logout()
-      const existingOverlay = document.querySelector(
-        '#username-prompt-overlay'
-      )
+      const existingOverlay = document.querySelector('#username-prompt-overlay')
       if (existingOverlay) existingOverlay.remove()
       initUsernamePrompt()
       closeMenu()
@@ -260,6 +276,7 @@ function createMenu (header) {
 
   const menuButton = document.createElement('button')
   menuButton.className = 'hamburger-btn'
+  menuButton.type = 'button'
   menuButton.innerHTML = '☰'
   menuButton.addEventListener('click', e => {
     e.stopPropagation()
@@ -279,7 +296,54 @@ function createMenu (header) {
     }
   })
 
-  return menuContent
+  return { menuContent, menuButton }
+}
+
+function attachOnlineUsersSection (menuContent, onUsersUpdate = null) {
+  if (unsubscribeOnlineUsers) {
+    unsubscribeOnlineUsers()
+    unsubscribeOnlineUsers = null
+  }
+
+  const section = document.createElement('section')
+  section.className = 'menu-online-users'
+
+  const heading = document.createElement('p')
+  heading.className = 'menu-online-users-heading'
+
+  const list = document.createElement('ul')
+  list.className = 'menu-online-users-list'
+
+  section.append(heading, list)
+  menuContent.append(section)
+
+  unsubscribeOnlineUsers = subscribeToOnlineUsers(onlineUsers => {
+    if (typeof onUsersUpdate === 'function') {
+      onUsersUpdate(onlineUsers)
+    }
+
+    heading.textContent = `Online now (${onlineUsers.length})`
+    list.replaceChildren()
+
+    if (onlineUsers.length === 0) {
+      const empty = document.createElement('li')
+      empty.className = 'menu-online-users-empty'
+      empty.textContent = 'No users online'
+      list.append(empty)
+      return
+    }
+
+    onlineUsers.forEach(name => {
+      const item = document.createElement('li')
+      item.textContent = name
+
+      if (name.toLowerCase() === getUsername().trim().toLowerCase()) {
+        item.classList.add('menu-online-users-self')
+      }
+
+      list.append(item)
+    })
+  })
 }
 
 export const initHeaderOnLoad = () => {
@@ -299,5 +363,9 @@ export const initHeaderOnLoad = () => {
       wasLargeScreen = isLargeScreen
       renderHeader()
     }
+  })
+
+  window.addEventListener('garden:auth-changed', () => {
+    renderHeader()
   })
 }

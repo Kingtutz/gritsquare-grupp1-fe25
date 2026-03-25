@@ -1,4 +1,4 @@
-import { subscribeToMessages } from './firebase/firebase.js'
+import { subscribeToMessages, setUserOnlineState } from './firebase/firebase.js'
 import {
   renderFlowers,
   syncRenderedFlowerTheme
@@ -8,7 +8,25 @@ import { addStyling } from './modules/cssadder.js'
 import { initAnimalControl } from './modules/animal.js'
 import { initTheme } from './modules/theme.js'
 import { initCabin } from './modules/cabin.js'
-import { initUsernamePrompt } from './modules/username.js'
+import { getUsername, initUsernamePrompt } from './modules/username.js'
+
+function markCurrentUserOnline () {
+  const username = getUsername().trim()
+  if (!username) {
+    return
+  }
+
+  setUserOnlineState(username, true).catch(() => {})
+}
+
+function markCurrentUserOffline () {
+  const username = getUsername().trim()
+  if (!username) {
+    return
+  }
+
+  setUserOnlineState(username, false, { keepalive: true }).catch(() => {})
+}
 
 function isHomePage () {
   return document.getElementById('garden') !== null
@@ -31,7 +49,11 @@ async function initPage () {
     return
   }
 
-  await initUsernamePrompt()
+  initUsernamePrompt()
+  markCurrentUserOnline()
+  window.addEventListener('pagehide', markCurrentUserOffline)
+  window.addEventListener('beforeunload', markCurrentUserOffline)
+  window.addEventListener('garden:auth-changed', markCurrentUserOnline)
   initAnimalControl()
   initCabin()
   subscribeToMessages(data => {

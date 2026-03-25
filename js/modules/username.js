@@ -1,4 +1,8 @@
-import { loginUser, registerUser } from '../firebase/firebase.js'
+import {
+  loginUser,
+  registerUser,
+  setUserOnlineState
+} from '../firebase/firebase.js'
 
 const USERNAME_STORAGE_KEY = 'garden-username-v1'
 const TERMS_ACCEPTED_KEY_BASE = 'garden-terms-accepted-v1'
@@ -8,7 +12,12 @@ export function getUsername () {
 }
 
 export function logout () {
+  const username = getUsername().trim()
+  if (username) {
+    setUserOnlineState(username, false).catch(() => {})
+  }
   window.localStorage.removeItem(USERNAME_STORAGE_KEY)
+  window.dispatchEvent(new CustomEvent('garden:auth-changed'))
 }
 
 function hasAcceptedTerms (username) {
@@ -126,6 +135,7 @@ async function ensureTermsAccepted () {
 
 function saveUsername (username) {
   window.localStorage.setItem(USERNAME_STORAGE_KEY, username.trim())
+  window.dispatchEvent(new CustomEvent('garden:auth-changed'))
 }
 
 function makeField (id, type, placeholder, autocomplete) {
@@ -160,12 +170,27 @@ export async function initUsernamePrompt () {
   const heading = document.createElement('h2')
   heading.className = 'username-prompt-heading'
 
-  const usernameInput = makeField('login-username', 'text', 'Username', 'username')
-  const passwordInput = makeField('login-password', 'password', 'Password', 'current-password')
+  const usernameInput = makeField(
+    'login-username',
+    'text',
+    'Username',
+    'username'
+  )
+  const passwordInput = makeField(
+    'login-password',
+    'password',
+    'Password',
+    'current-password'
+  )
 
   const confirmWrapper = document.createElement('div')
   confirmWrapper.className = 'username-prompt-confirm-wrapper'
-  const confirmInput = makeField('login-confirm', 'password', 'Confirm password', 'new-password')
+  const confirmInput = makeField(
+    'login-confirm',
+    'password',
+    'Confirm password',
+    'new-password'
+  )
   confirmWrapper.append(confirmInput)
 
   const errorMsg = document.createElement('span')
@@ -190,8 +215,12 @@ export async function initUsernamePrompt () {
     heading.textContent = loginMode ? 'Login' : 'Register'
     submitBtn.textContent = loginMode ? 'Login' : 'Register'
     confirmWrapper.hidden = loginMode
-    toggleLink.textContent = loginMode ? 'Create an account' : 'Already have an account? Login'
-    toggleText.childNodes[0].textContent = loginMode ? "Don't have an account? " : ''
+    toggleLink.textContent = loginMode
+      ? 'Create an account'
+      : 'Already have an account? Login'
+    toggleText.childNodes[0].textContent = loginMode
+      ? "Don't have an account? "
+      : ''
     errorMsg.hidden = true
     errorMsg.textContent = ''
   }
@@ -242,22 +271,17 @@ export async function initUsernamePrompt () {
         await registerUser(username, password)
       }
       saveUsername(username)
-      const accepted = await ensureTermsAccepted()
-      if (!accepted) {
-        submitBtn.disabled = false
-        submitBtn.textContent = isLoginMode ? 'Login' : 'Register'
-        return
-      }
+      setUserOnlineState(username, true).catch(() => {})
       overlay.remove()
     } catch (err) {
       const message =
         err.message === 'Username already taken'
           ? 'Username already taken'
           : err.message === 'User not found'
-            ? 'No account with that username'
-            : err.message === 'Incorrect password'
-              ? 'Incorrect password'
-              : 'Something went wrong, try again'
+          ? 'No account with that username'
+          : err.message === 'Incorrect password'
+          ? 'Incorrect password'
+          : 'Something went wrong, try again'
       showError(message)
       submitBtn.disabled = false
       setMode(isLoginMode)
@@ -276,7 +300,15 @@ export async function initUsernamePrompt () {
 
   setMode(true)
 
-  box.append(heading, usernameInput, passwordInput, confirmWrapper, errorMsg, submitBtn, toggleText)
+  box.append(
+    heading,
+    usernameInput,
+    passwordInput,
+    confirmWrapper,
+    errorMsg,
+    submitBtn,
+    toggleText
+  )
   overlay.append(box)
   document.body.append(overlay)
 
