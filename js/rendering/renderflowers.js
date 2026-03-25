@@ -1,3 +1,7 @@
+import { postReply } from '../firebase/firebase.js'
+import { censorBadWords } from '../modules/censor.js'
+import { getUsername } from '../modules/username.js'
+
 const isInSitesFolder = () =>
   window.location.pathname.toLowerCase().includes('/sites/')
 
@@ -6,6 +10,7 @@ const basePath = isInSitesFolder() ? '../img/flowers' : './img/flowers'
 const FLOWER_SIZE = 64
 const FLOWER_COLLISION_GAP = 6
 const FLOWER_POSITIONS_STORAGE_KEY = 'flower-fixed-positions-v1'
+const FLOWER_READ_STATE_STORAGE_KEY = 'flower-read-state-v1'
 const LIGHT_FLOWER_IMAGES = [
   `${basePath}/Lightflower1.png`,
   `${basePath}/Lightflower2.png`,
@@ -58,7 +63,7 @@ export function syncRenderedFlowerTheme () {
     return
   }
 
-  const flowers = Array.from(garden.querySelectorAll('.garden-flower'))
+  const flowers = Array.from(garden.querySelectorAll('.garden-flower-image'))
   if (flowers.length === 0) {
     return
   }
@@ -179,6 +184,47 @@ function getStoredFlowerPositions () {
   }
 
   return {}
+}
+
+function getStoredReadState () {
+  try {
+    const raw = window.localStorage.getItem(FLOWER_READ_STATE_STORAGE_KEY)
+    if (!raw) {
+      return {}
+    }
+
+    const parsed = JSON.parse(raw)
+    if (parsed && typeof parsed === 'object') {
+      return parsed
+    }
+  } catch {
+    return {}
+  }
+
+  return {}
+}
+
+function getReadVersion (postId) {
+  if (!postId) {
+    return 0
+  }
+
+  const readState = getStoredReadState()
+  const version = readState[postId]
+  return typeof version === 'number' ? version : 0
+}
+
+function setReadVersion (postId, version) {
+  if (!postId) {
+    return
+  }
+
+  const readState = getStoredReadState()
+  readState[postId] = version
+  window.localStorage.setItem(
+    FLOWER_READ_STATE_STORAGE_KEY,
+    JSON.stringify(readState)
+  )
 }
 
 function getSavedFlowerPosition (positionSeed) {
@@ -307,10 +353,185 @@ function enableFlowerDragging (flower, garden, onDragEnd = null) {
   }
 }
 
+function normalizeReply (reply) {
+  if (!reply) {
+    return null
+  }
+
+  if (typeof reply === 'string') {
+    const trimmed = reply.trim()
+    if (!trimmed) {
+      return null
+    }
+
+    return {
+      name: 'Anonymous',
+      message: trimmed
+    }
+  }
+
+  if (typeof reply === 'object') {
+    const message =
+      typeof reply.message === 'string' ? reply.message.trim() : ''
+    if (!message) {
+      return null
+    }
+
+    return {
+      name:
+        typeof reply.name === 'string' && reply.name.trim()
+          ? reply.name.trim()
+          : 'Anonymous',
+      message
+    }
+  }
+
+  return null
+}
+
+function getReplyList (data) {
+  const replies = []
+
+  if (Array.isArray(data?.replies)) {
+    data.replies.forEach(entry => {
+      const normalized = normalizeReply(entry)
+      if (normalized) {
+        replies.push(normalized)
+      }
+    })
+  } else if (data?.replies && typeof data.replies === 'object') {
+    Object.values(data.replies).forEach(entry => {
+      const normalized = normalizeReply(entry)
+      if (normalized) {
+        replies.push(normalized)
+      }
+    })
+  }
+
+  if (replies.length === 0) {
+    const legacyAnswer = normalizeReply(data?.answer)
+    if (legacyAnswer) {
+      replies.push(legacyAnswer)
+    }
+  }
+
+  return replies
+}
+
+function getThreadVersion (data) {
+  if (!data || typeof data !== 'object') {
+    return 0
+  }
+
+  const hasMainMessage =
+    typeof data.message === 'string' && data.message.trim().length > 0
+  if (!hasMainMessage) {
+    return 0
+  }
+
+  return 1 + getReplyList(data).length
+}
+
+function hasUnreadContent (postId, data) {
+  if (!postId) {
+    return false
+  }
+
+  return getThreadVersion(data) > getReadVersion(postId)
+}
+
+function buildReplyElement (replyData) {
+  const replyBlock = document.createElement('section')
+  replyBlock.className = 'flower-popup-reply'
+
+  const replyLabel = document.createElement('h4')
+  replyLabel.className = 'flower-popup-reply-label'
+  replyLabel.textContent = 'Reply'
+
+  const replyText = document.createElement('p')
+  replyText.className = 'flower-popup-reply-message'
+  replyText.textContent = replyData.message
+
+  const replyMeta = document.createElement('p')
+  replyMeta.className = 'flower-popup-reply-meta'
+  replyMeta.textContent = `From: ${replyData.name}`
+
+  replyBlock.append(replyLabel, replyText, replyMeta)
+  return replyBlock
+}
+
+function buildReplyForm ({ postId, data, onReplySaved }) {
+  const form = document.createElement('form')
+  form.className = 'flower-popup-reply-form'
+
+  const replyName = document.createElement('input')
+  replyName.type = 'text'
+  replyName.name = 'reply-name'
+  replyName.maxLength = 64
+  replyName.required = true
+  replyName.placeholder = 'Your name'
+  replyName.value = getUsername()
+
+  const replyMessage = document.createElement('textarea')
+  replyMessage.name = 'reply-message'
+  replyMessage.maxLength = 180
+  replyMessage.required = true
+  replyMessage.placeholder = 'Write a reply...'
+
+  const actions = document.createElement('div')
+  actions.className = 'flower-popup-reply-actions'
+
+  const submit = document.createElement('button')
+  submit.type = 'submit'
+  submit.textContent = 'Reply'
+
+  const status = document.createElement('p')
+  status.className = 'flower-popup-reply-status'
+  status.hidden = true
+
+  actions.append(submit, status)
+  form.append(replyName, replyMessage, actions)
+
+  form.addEventListener('submit', async event => {
+    event.preventDefault()
+
+    const nameValue = censorBadWords(replyName.value.trim())
+    const messageValue = censorBadWords(replyMessage.value.trim())
+
+    if (!nameValue || !messageValue) {
+      status.hidden = false
+      status.textContent = 'Please enter both name and reply.'
+      return
+    }
+
+    submit.disabled = true
+    status.hidden = false
+    status.textContent = 'Sending...'
+
+    try {
+      const savedReply = await postReply(postId, messageValue, nameValue)
+      if (!Array.isArray(data.replies)) {
+        data.replies = getReplyList(data)
+      }
+      data.replies.push(savedReply)
+      replyMessage.value = ''
+      status.textContent = 'Reply posted.'
+      onReplySaved()
+    } catch {
+      status.textContent = 'Could not post reply. Try again.'
+    } finally {
+      submit.disabled = false
+    }
+  })
+
+  return form
+}
+
 export function renderFlower (
   imageSrc = getDefaultFlowerImage(),
   data = null,
-  positionSeed = 'flower-default'
+  positionSeed = 'flower-default',
+  postId = ''
 ) {
   const garden =
     document.getElementById('garden') ??
@@ -320,21 +541,33 @@ export function renderFlower (
     return null
   }
 
-  const flower = document.createElement('img')
+  const flower = document.createElement('div')
+  const flowerImage = document.createElement('img')
+  const unreadBadge = document.createElement('span')
   const fixedPosition = resolveFlowerPosition(garden, positionSeed)
 
-  flower.src = imageSrc
-  flower.alt = 'Flower'
+  flowerImage.src = imageSrc
+  flowerImage.alt = 'Flower'
+  flowerImage.className = 'garden-flower-image'
+  flowerImage.style.width = `${FLOWER_SIZE}px`
+  flowerImage.style.height = `${FLOWER_SIZE}px`
+  flowerImage.style.objectFit = 'contain'
+  flowerImage.style.objectPosition = 'center'
+  flowerImage.draggable = false
+
   flower.className = 'garden-flower'
   garden.style.position = 'relative'
   flower.style.position = 'absolute'
   flower.style.width = `${FLOWER_SIZE}px`
   flower.style.height = `${FLOWER_SIZE}px`
-  flower.style.objectFit = 'contain'
-  flower.style.objectPosition = 'center'
   flower.style.left = fixedPosition.left
   flower.style.top = fixedPosition.top
-  flower.draggable = false
+
+  unreadBadge.className = 'flower-unread-badge'
+  unreadBadge.textContent = '!'
+  unreadBadge.hidden = !hasUnreadContent(postId, data)
+
+  flower.append(flowerImage, unreadBadge)
 
   const hoverTitle =
     typeof data?.title === 'string' && data.title.trim().length > 0
@@ -352,13 +585,16 @@ export function renderFlower (
       return
     }
 
-    openFlowerPopup(imageSrc, data)
+    setReadVersion(postId, getThreadVersion(data))
+    unreadBadge.hidden = true
+
+    openFlowerPopup(flowerImage.src, data, postId)
   })
 
   return flower
 }
 
-function openFlowerPopup (imageSrc, data) {
+function openFlowerPopup (imageSrc, data, postId) {
   const existing = document.getElementById('flower-popup')
   if (existing) {
     existing.remove()
@@ -405,20 +641,29 @@ function openFlowerPopup (imageSrc, data) {
       message.className = 'flower-popup-message'
       message.textContent = data.message
       box.append(message)
-    }
-    if (data.answer) {
-      const answer = document.createElement('p')
-      answer.className = 'flower-popup-message'
-      const answerText =
-        typeof data.answer === 'string'
-          ? data.answer
-          : data.answer.message ?? JSON.stringify(data.answer)
-      const answerName =
-        typeof data.answer === 'string'
-          ? data.answer
-          : data.answer.name ?? JSON.stringify(data.answer)
-      answer.textContent = `Answer: ${answerText} From: ${answerName}`
-      box.append(answer)
+
+      const repliesContainer = document.createElement('div')
+      repliesContainer.className = 'flower-popup-replies'
+      message.insertAdjacentElement('afterend', repliesContainer)
+
+      const renderReplies = () => {
+        repliesContainer.replaceChildren()
+        const replies = getReplyList(data)
+        replies.forEach(reply => {
+          repliesContainer.append(buildReplyElement(reply))
+        })
+      }
+
+      renderReplies()
+
+      if (postId) {
+        const replyForm = buildReplyForm({
+          postId,
+          data,
+          onReplySaved: renderReplies
+        })
+        box.append(replyForm)
+      }
     }
   }
 
@@ -438,7 +683,12 @@ export function renderFlowers (data = null) {
   entries.forEach(([entryKey, entry]) => {
     const randomImage =
       flowerImages[Math.floor(Math.random() * flowerImages.length)]
-    const flower = renderFlower(randomImage, entry, String(entryKey))
+    const flower = renderFlower(
+      randomImage,
+      entry,
+      String(entryKey),
+      String(entryKey)
+    )
     console.log(entry)
     if (flower) {
       renderedFlowers.push(flower)

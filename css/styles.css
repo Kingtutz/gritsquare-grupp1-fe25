@@ -286,10 +286,34 @@ html.dark-mode .info-card p {
 	position: absolute;
 	width: 64px;
 	height: 64px;
-	object-fit: contain;
 	cursor: pointer;
 	touch-action: none;
 	z-index: 4;
+}
+
+.garden-flower-image {
+	width: 64px;
+	height: 64px;
+	object-fit: contain;
+	pointer-events: none;
+}
+
+.flower-unread-badge {
+	position: absolute;
+	top: -5px;
+	right: -5px;
+	width: 18px;
+	height: 18px;
+	border-radius: 999px;
+	background: #d83b2d;
+	color: #fff;
+	font-size: 12px;
+	line-height: 18px;
+	font-weight: 700;
+	text-align: center;
+	border: 2px solid #fff8df;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+	pointer-events: none;
 }
 .garden-flower:hover{
 	cursor: url(../img/cursors/cursorcan128.png) 35 100, pointer;
@@ -364,6 +388,99 @@ html.dark-mode .info-card p {
 	color: #412714;
 }
 
+.flower-popup-reply {
+	width: 100%;
+	max-width: 320px;
+	align-self: center;
+	padding: 10px 12px;
+	border: 2px solid #6d4a2c;
+	border-radius: 10px;
+	background: rgba(255, 247, 218, 0.8);
+	text-align: left;
+}
+
+.flower-popup-replies {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.flower-popup-reply-label {
+	margin: 0 0 4px;
+	font-size: 0.88rem;
+	text-transform: uppercase;
+	letter-spacing: 0.06em;
+	color: #6d4a2c;
+}
+
+.flower-popup-reply-message,
+.flower-popup-reply-meta {
+	margin: 0;
+	color: #2f1f12;
+	line-height: 1.35;
+	word-break: break-word;
+}
+
+.flower-popup-reply-meta {
+	margin-top: 6px;
+	font-size: 0.82rem;
+	opacity: 0.9;
+}
+
+.flower-popup-reply-form {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	margin-top: 6px;
+}
+
+.flower-popup-reply-form input,
+.flower-popup-reply-form textarea {
+	width: 100%;
+	padding: 8px 10px;
+	border: 1px solid #7f5d41;
+	border-radius: 8px;
+	font: inherit;
+	color: #2f1f12;
+	background: #fffaf0;
+	box-sizing: border-box;
+}
+
+.flower-popup-reply-form textarea {
+	min-height: 72px;
+	resize: vertical;
+}
+
+.flower-popup-reply-actions {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+
+.flower-popup-reply-actions button {
+	padding: 7px 12px;
+	border: 2px solid #4e341f;
+	border-radius: 8px;
+	background: #fff3cc;
+	color: #3b2515;
+	font-weight: 700;
+	cursor: pointer;
+	box-shadow: 0 2px 0 #4e341f;
+}
+
+.flower-popup-reply-actions button:active {
+	transform: translateY(1px);
+	box-shadow: 0 1px 0 #4e341f;
+}
+
+.flower-popup-reply-status {
+	margin: 0;
+	font-size: 0.82rem;
+	color: #5d3e22;
+}
+
 .flower-popup-close {
 	position: absolute;
 	top: 10px;
@@ -419,6 +536,47 @@ html.dark-mode .flower-popup-message {
 
 html.dark-mode .flower-popup-box .flower-popup-message:first-of-type {
 	color: #f7eefe;
+}
+
+html.dark-mode .flower-popup-reply {
+	background: rgba(40, 30, 55, 0.82);
+	border-color: #cdb8e4;
+}
+
+html.dark-mode .flower-popup-reply-label {
+	color: #dfcff2;
+}
+
+html.dark-mode .flower-popup-reply-message,
+html.dark-mode .flower-popup-reply-meta {
+	color: #efe8ff;
+}
+
+html.dark-mode .flower-popup-reply-form input,
+html.dark-mode .flower-popup-reply-form textarea {
+	background: #2f2740;
+	color: #f6efff;
+	border-color: #d8c4ef;
+}
+
+html.dark-mode .flower-popup-reply-actions button {
+	background: #2f2740;
+	color: #f6efff;
+	border-color: #dfcdf3;
+	box-shadow: 0 2px 0 #dfcdf3;
+}
+
+html.dark-mode .flower-popup-reply-actions button:active {
+	box-shadow: 0 1px 0 #dfcdf3;
+}
+
+html.dark-mode .flower-popup-reply-status {
+	color: #e5d6f6;
+}
+
+html.dark-mode .flower-unread-badge {
+	border-color: #3d334f;
+	box-shadow: 0 2px 4px rgba(3, 2, 7, 0.55);
 }
 
 html.dark-mode .flower-popup-close {
