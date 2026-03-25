@@ -731,3 +731,80 @@ html.dark-mode .garden-grass-hint {
 		font-size: 0.78rem;
 	}
 }
+
+
+
+
+
+/* POP UP TERMS CSS */
+
+
+
+
+
+/* Popup background */
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(10px); /* Added blur for premium look */
+  display: none;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Popup box */
+.popup-content {
+  background: white;
+  padding: 20px;
+  max-width: 500px; /* Increased width for scrollable text */
+  border-radius: 10px;
+  text-align: center;
+  max-height: 80vh; /* Limit height for scrolling */
+  overflow-y: auto; /* Make content scrollable */
+}
+
+/* Button */
+#acceptBtn {
+  margin-top: 15px;
+  padding: 10px 20px;
+  background: #ee6c4d ;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#acceptBtn:hover {
+  background: #003554;
+}
+
+/* Added styles for decline button and checkbox */
+#declineBtn {
+  margin-top: 15px;
+  padding: 10px 20px;
+  background: #ccc;
+  color: black;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+#declineBtn:hover {
+  background: #aaa;
+}
+
+.checkbox-container {
+  margin-top: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.checkbox-container input {
+  margin-right: 10px;
+}
