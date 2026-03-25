@@ -1,13 +1,32 @@
 .cabin-wrapper{
-    max-width: 25%;
+    max-width: 40%;
+    margin-top: 1.5rem;
+    margin-left: 3rem;
 }
 
 #cabinImg{
     max-width: 100%;
-    width: 300px;
+    width: 400px;
+	transition: filter var(--theme-fade-duration, 560ms) ease;
+}
+
+html.dark-mode #cabinImg {
+	filter: var(--cabin-dark-filter, brightness(0.72) saturate(0.86) hue-rotate(18deg));
 }
 
 #cabinImg:hover{
     width: 340px;
     height: auto;
+}
+
+@media (max-width: 600px) {
+    #cabinImg{
+        max-width: 100%;
+        width: 400px;
+        margin-top: 3rem;
+    }
+    .cabin-wrapper{
+        max-width: 50%;
+        margin-left: 1.5rem;
+    }
 }

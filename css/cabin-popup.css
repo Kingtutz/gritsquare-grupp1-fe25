@@ -9,8 +9,26 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1000;
+  z-index: var(--z-popup);
   animation: fadeIn 0.3s ease-out;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+#cabin-popup-overlay::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  background:
+    linear-gradient(180deg, rgba(16, 24, 34, 0.44), rgba(16, 24, 34, 0.44));
+  transition: opacity var(--theme-fade-duration, 560ms) ease;
+  z-index: 0;
+}
+
+html.dark-mode #cabin-popup-overlay::before {
+  opacity: 1;
 }
 
 @keyframes fadeIn {
@@ -24,6 +42,7 @@
 
 .cabin-popup-container {
   position: relative;
+  z-index: 1;
   width: 600px;
   height: 500px;
   background: 
@@ -106,7 +125,7 @@
 
 .cabin-popup-icon {
   position: absolute;
-  z-index: 1001;
+  z-index: var(--z-floating-ui);
   object-fit: cover;
   transition: transform 0.2s ease;
 }
@@ -172,24 +191,45 @@
 }
 
 .cabin-popup-close {
-  background: none;
-  border: none;
-  font-size: 1.5rem;
+  background: #fff3cc;
+  border: 2px solid #4e341f;
+  font-size: 1.15rem;
+  font-weight: 700;
   cursor: pointer;
-  color: #666;
+  color: #3b2515;
   padding: 0;
-  width: 32px;
-  height: 32px;
+  width: 34px;
+  height: 34px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 4px;
-  transition: all 0.2s ease;
+  border-radius: 10px;
+  box-shadow: 0 3px 0 #4e341f;
+  transition: transform 0.1s ease, box-shadow 0.1s ease, background-color 0.2s ease;
 }
 
 .cabin-popup-close:hover {
-  background: #f0f0f0;
-  color: #333;
+  background: #ffe6aa;
+}
+
+.cabin-popup-close:active {
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 #4e341f;
+}
+
+html.dark-mode .cabin-popup-close {
+  background: #fff3cc;
+  color: #3b2515;
+  border-color: #4e341f;
+  box-shadow: 0 3px 0 #4e341f;
+}
+
+html.dark-mode .cabin-popup-close:hover {
+  background: #ffe6aa;
+}
+
+html.dark-mode .cabin-popup-close:active {
+  box-shadow: 0 1px 0 #4e341f;
 }
 
 .cabin-popup-section {
@@ -387,10 +427,13 @@
 
 /* Responsive design */
 @media (max-width: 768px) {
+  #cabin-popup-overlay {
+    padding: 1.25rem;
+  }
+
   .cabin-popup-container {
-    width: 90vw;
+    width: min(500px, calc(100vw - 2.5rem));
     height: 80vh;
-    max-width: 500px;
     max-height: 600px;
     border-width: 10px;
   }
@@ -418,14 +461,18 @@
   .cabin-popup-icon-scroll {
     width: 65px;
     height: 65px;
-    bottom: -32px;
-    right: -32px;
+    bottom: -24px;
+    right: -20px;
   }
 }
 
 @media (max-width: 480px) {
+  #cabin-popup-overlay {
+    padding: 0.9rem;
+  }
+
   .cabin-popup-container {
-    width: 95vw;
+    width: calc(100vw - 1.8rem);
     height: 85vh;
     max-width: 100%;
     border-width: 8px;
@@ -458,10 +505,7 @@
   .cabin-popup-icon-scroll {
     width: 55px;
     height: 55px;
-    bottom: -27px;
-    right: -27px;
+    bottom: -18px;
+    right: -14px;
   }
-}
-
-
 }

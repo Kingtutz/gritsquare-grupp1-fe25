@@ -3,18 +3,80 @@ const isInSitesFolder = () =>
 
 const basePath = isInSitesFolder() ? '../img/flowers' : './img/flowers'
 
-const DEFAULT_FLOWER_IMAGE = `${basePath}/redFlower.png`
 const FLOWER_SIZE = 64
 const FLOWER_COLLISION_GAP = 6
 const FLOWER_POSITIONS_STORAGE_KEY = 'flower-fixed-positions-v1'
-const FLOWER_IMAGES = [
-  `${basePath}/blueFlower.png`,
-  `${basePath}/greenFlower.png`,
-  `${basePath}/pinkFlower.png`,
-  `${basePath}/purpleFlower.png`,
-  `${basePath}/redFlower.png`,
-  `${basePath}/yellowFlower.png`
+const LIGHT_FLOWER_IMAGES = [
+  `${basePath}/Lightflower1.png`,
+  `${basePath}/Lightflower2.png`,
+  `${basePath}/Lightflower3.png`,
+  `${basePath}/Lightflower4.png`,
+  `${basePath}/Lightflower5.png`,
+  `${basePath}/Lightflower6.png`
 ]
+
+const DARK_FLOWER_IMAGES = [
+  `${basePath}/Darkflower1.png`,
+  `${basePath}/Darkflower2.png`,
+  `${basePath}/Darkflower3.png`,
+  `${basePath}/Darkflower4.png`,
+  `${basePath}/Darkflower5.png`,
+  `${basePath}/Darkflower6.png`
+]
+
+function isDarkThemeActive () {
+  const html = document.documentElement
+  return (
+    html.getAttribute('data-theme') === 'dark' ||
+    html.classList.contains('dark-mode')
+  )
+}
+
+function getFlowerImagesForCurrentTheme () {
+  return isDarkThemeActive() ? DARK_FLOWER_IMAGES : LIGHT_FLOWER_IMAGES
+}
+
+function getDefaultFlowerImage () {
+  return getFlowerImagesForCurrentTheme()[0]
+}
+
+function extractFlowerVariantNumber (src) {
+  const match = src.match(/(Lightflower|Darkflower)(\d+)\.png/i)
+  if (!match) {
+    return null
+  }
+
+  return Number(match[2])
+}
+
+export function syncRenderedFlowerTheme () {
+  const garden =
+    document.getElementById('garden') ??
+    document.querySelector('.garden-wrapper')
+
+  if (!garden) {
+    return
+  }
+
+  const flowers = Array.from(garden.querySelectorAll('.garden-flower'))
+  if (flowers.length === 0) {
+    return
+  }
+
+  const useDark = isDarkThemeActive()
+  const fallbackImages = useDark ? DARK_FLOWER_IMAGES : LIGHT_FLOWER_IMAGES
+  const targetPrefix = useDark ? 'Darkflower' : 'Lightflower'
+
+  flowers.forEach((flower, index) => {
+    const variant = extractFlowerVariantNumber(flower.src)
+    if (variant && variant >= 1 && variant <= 6) {
+      flower.src = `${basePath}/${targetPrefix}${variant}.png`
+      return
+    }
+
+    flower.src = fallbackImages[index % fallbackImages.length]
+  })
+}
 
 function clamp (value, min, max) {
   return Math.min(Math.max(value, min), max)
@@ -246,7 +308,7 @@ function enableFlowerDragging (flower, garden, onDragEnd = null) {
 }
 
 export function renderFlower (
-  imageSrc = DEFAULT_FLOWER_IMAGE,
+  imageSrc = getDefaultFlowerImage(),
   data = null,
   positionSeed = 'flower-default'
 ) {
@@ -268,6 +330,8 @@ export function renderFlower (
   flower.style.position = 'absolute'
   flower.style.width = `${FLOWER_SIZE}px`
   flower.style.height = `${FLOWER_SIZE}px`
+  flower.style.objectFit = 'contain'
+  flower.style.objectPosition = 'center'
   flower.style.left = fixedPosition.left
   flower.style.top = fixedPosition.top
   flower.draggable = false
@@ -364,6 +428,7 @@ function openFlowerPopup (imageSrc, data) {
 
 export function renderFlowers (data = null) {
   const renderedFlowers = []
+  const flowerImages = getFlowerImagesForCurrentTheme()
   const entries = data
     ? Object.entries(data)
     : new Array(12)
@@ -372,7 +437,7 @@ export function renderFlowers (data = null) {
 
   entries.forEach(([entryKey, entry]) => {
     const randomImage =
-      FLOWER_IMAGES[Math.floor(Math.random() * FLOWER_IMAGES.length)]
+      flowerImages[Math.floor(Math.random() * flowerImages.length)]
     const flower = renderFlower(randomImage, entry, String(entryKey))
     console.log(entry)
     if (flower) {

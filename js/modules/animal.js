@@ -99,7 +99,12 @@ export function initAnimalControl () {
   // Try to add to hamburger menu, fallback to body
   const menuContent = document.querySelector('.hamburger-menu-content')
   if (menuContent) {
-    menuContent.append(button)
+    const spawnAnimalSlot = menuContent.querySelector('.menu-spawn-animal-slot')
+    if (spawnAnimalSlot) {
+      spawnAnimalSlot.replaceChildren(button)
+    } else {
+      menuContent.append(button)
+    }
   } else {
     if (isInSitesFolder()) {
       button.classList.add('spawn-animal-btn-sites')

@@ -1,36 +1,105 @@
 .form-wrapper {
-  position: absolute;
+  position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: white;
-  padding: 10px;
-  z-index: 1000;
-  border: solid 1px black;
+  width: min(560px, calc(100vw - 2rem));
+  background:
+    linear-gradient(180deg, rgba(255, 247, 219, 0.98), rgba(246, 224, 173, 0.98));
+  padding: 12px;
+  z-index: var(--z-popup);
+  border: 3px solid #4d331f;
+  border-radius: 14px;
+  box-shadow: 0 8px 0 #4d331f, 0 18px 34px rgba(20, 12, 4, 0.36);
+}
+
+.form-wrapper::before {
+  content: '';
+  position: absolute;
+  inset: 8px;
+  border: 2px dashed rgba(102, 67, 38, 0.45);
   border-radius: 10px;
-  min-width: 50%;
+  pointer-events: none;
 }
 
 .form-wrapper .cancelBtn {
-  padding: 5px;
-  border-radius: 50%;
-  height: 30px;
-  width: 30px;
-  background-color: white;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: auto;
+  border: 2px solid #4d331f;
+  border-radius: 10px;
+  height: 34px;
+  width: 34px;
+  background: #fff4d5;
+  color: #41250f;
+  font-weight: 700;
+  box-shadow: 0 3px 0 #4d331f;
   cursor: pointer;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+.form-wrapper .cancelBtn:active {
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 #4d331f;
 }
 
 .form-wrapper form {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  padding: 20px;
+  gap: 12px;
+  padding: 14px 16px 16px;
+}
+
+.form-wrapper form input,
+.form-wrapper form textarea,
+.form-wrapper form .emoji-select {
+  width: 100%;
+  border: 2px solid #5c4027;
+  border-radius: 10px;
+  background: #fff9ea;
+  color: #2f1d0f;
+  padding: 10px 12px;
+  font-family: inherit;
+  font-size: 0.95rem;
+  box-sizing: border-box;
+}
+
+.form-wrapper form textarea {
+  min-height: 120px;
+  resize: vertical;
+  line-height: 1.45;
+}
+
+.form-wrapper form input:focus,
+.form-wrapper form textarea:focus,
+.form-wrapper form .emoji-select:focus {
+  outline: none;
+  border-color: #885733;
+  box-shadow: 0 0 0 3px rgba(136, 87, 51, 0.18);
 }
 
 .form-wrapper form .sendBtn {
-  display: flex;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   align-self: flex-end;
-  padding: 5px;
+  padding: 10px 16px;
+  border: 2px solid #4d331f;
+  border-radius: 10px;
+  background: linear-gradient(180deg, #ffc75f, #f4a640);
+  color: #35200f;
+  font-family: inherit;
+  font-weight: 700;
+  font-size: 0.98rem;
+  box-shadow: 0 4px 0 #4d331f;
+  cursor: pointer;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+.form-wrapper form .sendBtn:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 #4d331f;
 }
 
 .ad-overlay {
@@ -43,7 +112,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1001;
+  z-index: var(--z-floating-ui);
 }
 
 .ad-container {
@@ -65,9 +134,98 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 5px;
-/* Username prompt */
+  margin-top: 2px;
+  gap: 12px;
 }
+
+.form-bottom-row > div {
+  color: #5d422a;
+  font-size: 0.86rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.emoji-select {
+  max-width: 170px;
+}
+
+html.dark-mode .form-wrapper {
+  background:
+    linear-gradient(180deg, rgba(74, 58, 82, 0.98), rgba(52, 40, 61, 0.98));
+  border-color: #261d30;
+  box-shadow: 0 8px 0 #261d30, 0 18px 34px rgba(6, 5, 10, 0.56);
+}
+
+html.dark-mode .form-wrapper::before {
+  border-color: rgba(201, 181, 221, 0.28);
+}
+
+html.dark-mode .form-wrapper .cancelBtn {
+  background: #3b2f48;
+  color: #f0e8fb;
+  border-color: #e0d0f4;
+  box-shadow: 0 3px 0 #e0d0f4;
+}
+
+html.dark-mode .form-wrapper .cancelBtn:active {
+  box-shadow: 0 1px 0 #e0d0f4;
+}
+
+html.dark-mode .form-wrapper form input,
+html.dark-mode .form-wrapper form textarea,
+html.dark-mode .form-wrapper form .emoji-select {
+  background: #241c2f;
+  color: #f2ebff;
+  border-color: #d2bddf;
+}
+
+html.dark-mode .form-wrapper form input:focus,
+html.dark-mode .form-wrapper form textarea:focus,
+html.dark-mode .form-wrapper form .emoji-select:focus {
+  border-color: #efdbff;
+  box-shadow: 0 0 0 3px rgba(219, 191, 249, 0.24);
+}
+
+html.dark-mode .form-wrapper form .sendBtn {
+  background: linear-gradient(180deg, #a487d9, #8067c3);
+  color: #fff;
+  border-color: #e0d0f4;
+  box-shadow: 0 4px 0 #e0d0f4;
+}
+
+html.dark-mode .form-wrapper form .sendBtn:active {
+  box-shadow: 0 2px 0 #e0d0f4;
+}
+
+html.dark-mode .form-bottom-row > div {
+  color: #d6c4ea;
+}
+
+@media (max-width: 600px) {
+  .form-wrapper {
+    padding: 10px;
+    border-radius: 12px;
+  }
+
+  .form-wrapper form {
+    padding: 10px;
+  }
+
+  .form-wrapper form textarea {
+    min-height: 105px;
+  }
+
+  .form-bottom-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .emoji-select {
+    max-width: none;
+  }
+}
+
+/* Username prompt */
 #username-prompt-overlay {
   position: fixed;
   inset: 0;
@@ -75,7 +233,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 2000;
+  z-index: var(--z-critical-overlay);
 }
 
 .username-prompt-box {

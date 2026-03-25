@@ -1,5 +1,8 @@
 header{
   background-color: var(--theme-second-color);
+  position: relative;
+  z-index: var(--z-header);
+  overflow: visible;
 }
 
 nav {
@@ -10,9 +13,12 @@ nav {
 
 nav a {
   position: absolute;
+  width: 220px;
+  min-height: 146px;
   display: inline-block;
-  animation: cloud-float var(--cloud-duration, 10s) var(--cloud-delay, 0s) ease-in-out infinite alternate;
+  animation: cloud-float var(--cloud-duration, 20s) var(--cloud-delay, 0s) ease-in-out infinite alternate;
   will-change: transform;
+  overflow: visible;
 }
 
 @keyframes cloud-float {
@@ -31,17 +37,22 @@ nav a {
 
 nav a p {
   position: absolute;
-  top: 58%;
+  top: 54%;
   left: 50%;
   transform: translate(-50%, -50%);
   margin: 0;
   color: black;
   font-weight: bold;
   text-align: center;
-  font-size: 0.7rem;
+  font-size: 1rem;
+  width: 76%;
+  line-height: 1.1;
+  z-index: 2;
 }
 .cloud{
-  width: 180px;
+  width: 220px;
+  display: block;
+  margin: 0 auto;
 }
 
 /* DESKTOP: > 600px (default random floating clouds) */
@@ -49,23 +60,24 @@ nav a p {
 /* MOBILE MEDIUM: 600px - 450px (bounce on row) */
 @media(max-width: 600px) {
   .cloud{
-    width: 110px;
-    position: absolute;
-    z-index: 5;
+    width: 122px;
+    position: relative;
+    z-index: 1;
 
     
   }
   nav {
-    display: grid;
-    grid-template-columns: repeat(2, 80px);
+    display: flex;
     justify-content: center;
-    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
     padding: 10px 0;
   }
   nav a {
     position: relative;
     display: inline-block;
-    animation: bounce-gentle 2s ease-in-out infinite;
+    animation: none;
     width: 110px;
     min-height: 110px;
     height: 110px;
@@ -73,9 +85,25 @@ nav a p {
     overflow: hidden;
   }
 
+  nav a.mobile-cloud-primary {
+    width: 138px;
+    min-height: 138px;
+    height: 138px;
+    animation: bounce-gentle 3.2s ease-in-out infinite;
+  }
+
+  nav a.mobile-cloud-primary .cloud {
+    width: 138px;
+  }
+
+  nav a.mobile-cloud-primary p {
+    font-size: 0.68rem;
+    width: 78%;
+  }
+
   nav a p {
 	position: absolute;
-	top: 57%;
+  top: 56%;
 	left: 50%;
 	transform: translate(-50%, -50%);
 	margin: 0;
@@ -83,7 +111,8 @@ nav a p {
 	font-weight: bold;
 	text-align: center;
   z-index: 11;
-  font-size: 0.5rem;
+  font-size: 0.52rem;
+  width: 80%;
 }
 }
 
@@ -91,15 +120,14 @@ nav a p {
 @media(max-width: 450px) {
   .cloud{
     width: 80px;
-
-    position: absolute;
-    z-index: 0;
+    position: relative;
+    z-index: 1;
   }
   nav {
-    display: grid;
-    grid-template-columns: repeat(2, 80px);
+    display: flex;
     justify-content: center;
-    gap: 5px;
+    align-items: center;
+    gap: 8px;
     padding: 10px 0;
   }
   
@@ -115,9 +143,9 @@ nav a p {
   }
 
   nav a p {
-    font-size: 0.4rem;
+    font-size: 0.42rem;
     position: absolute;
-    top: 68%;
+    top: 58%;
     left: 50%;
     transform: translate(-50%, -50%);
     margin: 0;
@@ -125,23 +153,39 @@ nav a p {
     color: black;
     font-weight: bold;
     text-align: center;
-    width: 80px;
-    height: 60px;
+    width: 82%;
+    height: auto;
     line-height: 1;
+  }
+
+  nav a.mobile-cloud-primary {
+    width: 112px;
+    min-height: 112px;
+    height: 112px;
+    animation: bounce-gentle 3.4s ease-in-out infinite;
+  }
+
+  nav a.mobile-cloud-primary .cloud {
+    width: 112px;
+  }
+
+  nav a.mobile-cloud-primary p {
+    font-size: 0.58rem;
+    width: 78%;
   }
 }
 
 @media(max-width: 335px){
     .cloud{
     width: 80px;
-    position: absolute;
-    z-index: 0;
+    position: relative;
+    z-index: 1;
   }
   nav {
-    display: grid;
-    grid-template-columns: repeat(2, 80px);
+    display: flex;
     justify-content: center;
-    gap: 5px;
+    align-items: center;
+    gap: 6px;
     padding: 10px 0;
   }
   
@@ -156,9 +200,9 @@ nav a p {
     overflow: hidden;
   }
   nav a p {
-    font-size: 0.4rem;
+    font-size: 0.42rem;
     position: absolute;
-    top: 68%;
+    top: 58%;
     left: 50%;
     transform: translate(-50%, -50%);
     margin: 0;
@@ -166,9 +210,25 @@ nav a p {
     color: black;
     font-weight: bold;
     text-align: center;
-    width: 80px;
-    height: 60px;
+    width: 82%;
+    height: auto;
     line-height: 1;
+  }
+
+  nav a.mobile-cloud-primary {
+    width: 100px;
+    min-height: 100px;
+    height: 100px;
+    animation: bounce-gentle 3.5s ease-in-out infinite;
+  }
+
+  nav a.mobile-cloud-primary .cloud {
+    width: 100px;
+  }
+
+  nav a.mobile-cloud-primary p {
+    font-size: 0.52rem;
+    width: 80%;
   }
 }
 
@@ -177,7 +237,7 @@ nav a p {
   position: fixed;
   top: 10px;
   right: 10px;
-  z-index: 1000;
+  z-index: var(--z-menu);
 }
 
 .hamburger-btn {
@@ -227,6 +287,7 @@ html.dark-mode .hamburger-btn:active {
   padding: 10px;
   flex-direction: column;
   gap: 8px;
+  z-index: var(--z-menu-content);
 }
 
 html.dark-mode .hamburger-menu-content {
@@ -296,5 +357,17 @@ html.dark-mode .hamburger-menu-content button:hover {
   left: auto;
   z-index: auto;
   margin: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  nav a {
+    animation: none !important;
+  }
+
+  .hamburger-btn,
+  .hamburger-menu-content button,
+  .cabin-popup-icon {
+    transition: none !important;
+  }
 }
 

@@ -5,7 +5,7 @@ header[data-generated-header='true'] {
 #searchForm {
   position: absolute;
   left: 50%;
-  bottom: 1.25rem;
+  top: 1.5rem;
   transform: translateX(-50%);
   display: flex;
   align-items: center;
@@ -15,7 +15,7 @@ header[data-generated-header='true'] {
   border: 2px solid #222;
   border-radius: 12px;
   box-shadow: 0 4px 0 #111;
-  z-index: 1001;
+  z-index: var(--z-floating-ui);
 }
 
 #searchForm input {
@@ -43,6 +43,48 @@ header[data-generated-header='true'] {
   box-shadow: 0 2px 0 #111;
 }
 
+.search-close-btn {
+  width: 2.2rem;
+  height: 2.2rem;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #222;
+  border-radius: 10px;
+  background: #fff3cc;
+  color: #4e341f;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 0 #4e341f;
+  flex-shrink: 0;
+}
+
+.search-close-btn:hover {
+  background: #ffe499;
+}
+
+.search-close-btn:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 #4e341f;
+}
+
+html.dark-mode .search-close-btn {
+  background: #3a2a10;
+  color: #f0d090;
+  border-color: #f0d090;
+  box-shadow: 0 4px 0 #f0d090;
+}
+
+html.dark-mode .search-close-btn:hover {
+  background: #4e3a1a;
+}
+
+html.dark-mode .search-close-btn:active {
+  box-shadow: 0 2px 0 #f0d090;
+}
+
 html.dark-mode #searchForm {
   background: rgba(42, 42, 42, 0.94);
   border-color: #e0e0e0;
@@ -67,6 +109,7 @@ html.dark-mode #searchForm button:active {
     max-width: 360px;
     gap: 0.5rem;
     padding: 0.65rem 0.75rem;
+    margin-top: 2.5rem;
   }
 
   #searchForm input {

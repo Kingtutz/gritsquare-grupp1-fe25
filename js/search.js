@@ -83,6 +83,14 @@ export const searchUser = async () => {
   searchBtn.type = 'submit'
   searchBtn.textContent = 'Search'
 
+  const closeBtn = document.createElement('button')
+  closeBtn.type = 'button'
+  closeBtn.className = 'search-close-btn'
+  closeBtn.setAttribute('aria-label', 'Close search')
+  closeBtn.textContent = '✕'
+  closeBtn.addEventListener('click', () => resetSearchFilter())
+
+  form.appendChild(closeBtn)
   form.appendChild(input)
   form.appendChild(searchBtn)
   searchMount.appendChild(form)
@@ -101,7 +109,7 @@ export const searchUser = async () => {
 
     for (const key in all) {
       const users = all[key]
-      if (users.name.toLowerCase().includes(search)) {
+      if (users.name.toLowerCase() === search) {
         filteredUsers[key] = users
       }
     }

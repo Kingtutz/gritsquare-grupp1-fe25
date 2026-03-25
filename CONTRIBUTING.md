@@ -1,6 +1,6 @@
 # Förhållnings regler!
 
-1. kontakta mig(Charlie) på disc vid pullrequests
+1. kontakta mig(Charlie) på disc vid pullrequests (chni1201)
 
 --------
 
