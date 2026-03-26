@@ -4,7 +4,7 @@ import { censorBadWords } from './censor.js'
 
 import { getUsername } from './username.js'
 
-const emojiCodes = [0x1f604, 0x1f602, 0x1f60d, 0x1f60e, 0x1f525, 0x1f680]
+const emojiCodes = [0x1f604, 0x1f602, 0x1f60d, 0x1f60e, 0x1f525, 0x1f680, 0x1f44d, 0x1f389, 0x1f60a, 0x1f914, 0x1f631, 0x1f44f, 0x1f4a1, 0x1f973, 0x1f60f]
 
 export const createFlowerForm = () => {
   const wrapper = document.createElement('div')
