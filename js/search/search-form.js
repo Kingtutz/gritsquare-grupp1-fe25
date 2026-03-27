@@ -1,5 +1,5 @@
 import { getAll } from '../firebase/firebase.js'
-import { renderSearchResults, clearSearchMessage } from './search-rendering.js'
+import { renderSearchResults } from './search-rendering.js'
 
 function getSearchMount () {
   return document.querySelector('[data-generated-header="true"]')

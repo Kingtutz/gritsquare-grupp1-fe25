@@ -32,17 +32,46 @@ function isHomePage () {
   return document.getElementById('garden') !== null
 }
 
+function getGardenElement () {
+  return (
+    document.getElementById('garden') ??
+    document.querySelector('.garden-wrapper')
+  )
+}
+
+function renderFlowersInGarden (data) {
+  const garden = getGardenElement()
+  if (!garden) {
+    return
+  }
+
+  garden.querySelectorAll('.garden-flower').forEach(flower => flower.remove())
+
+  const flowers = renderFlowers(data)
+  flowers.forEach(flower => {
+    garden.appendChild(flower)
+  })
+}
+
 async function initPage () {
   await addStyling()
   initHeaderOnLoad()
   initTheme()
 
   window.addEventListener('garden:theme-changed', () => {
-    if (!isHomePage()) {
+    if (!getGardenElement()) {
       return
     }
 
     syncRenderedFlowerTheme()
+  })
+
+  if (!getGardenElement()) {
+    return
+  }
+
+  subscribeToMessages(data => {
+    renderFlowersInGarden(data)
   })
 
   if (!isHomePage()) {
@@ -56,9 +85,6 @@ async function initPage () {
   window.addEventListener('garden:auth-changed', markCurrentUserOnline)
   initAnimalControl()
   initCabin()
-  subscribeToMessages(data => {
-    renderFlowers(data)
-  })
 }
 
 initPage()

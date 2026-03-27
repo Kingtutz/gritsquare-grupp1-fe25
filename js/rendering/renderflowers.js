@@ -1,32 +1,8 @@
 /**
  * Flower rendering module - Main index exports
  *
- * This module re-exports functions from focused submodules for better maintainability.
- * The original monolithic implementation has been split into:
- * - flower-images.js: Image selection & theme syncing
- * - flower-positioning.js: Position calculations & collision detection
- * - flower-render.js: Rendering logic (stub - can be expanded)
+ * Main public API used by app entrypoints.
  */
 
 export { renderFlowers } from './flowers/flower-render.js'
 export { syncRenderedFlowerTheme } from './flowers/flower-images.js'
-export {
-  isDarkThemeActive,
-  getFlowerImagesForCurrentTheme,
-  getDefaultFlowerImage,
-  getFlowerImageForSeed,
-  extractFlowerVariantNumber
-} from './flowers/flower-images.js'
-export {
-  getFixedFlowerPosition,
-  isOverlappingFlowers,
-  getExistingFlowerPositions,
-  findNonOverlappingPosition,
-  getStoredFlowerPositions,
-  getStoredReadState,
-  getReadVersion,
-  setReadVersion,
-  getSavedFlowerPosition,
-  saveFlowerPosition,
-  resolveFlowerPosition
-} from './flowers/flower-positioning.js'
