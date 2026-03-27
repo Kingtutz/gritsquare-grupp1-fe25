@@ -1,0 +1,68 @@
+:root {
+	/* Light theme colors */
+	--light-bg: #ffffff;
+	--light-text: #111111;
+	--light-accent: #93e4c1;
+
+	/* Dark theme colors */
+	--dark-bg: #1a1a1a;
+	--dark-text: #e0e0e0;
+	--dark-accent: #5e63b6;
+
+	/* Default theme colors */
+	--theme-first-color: #93e4c1;
+	--theme-second-color: #3baea0;
+	--theme-third-color: #118a7e;
+	--theme-fourth-color: #1f6f78;
+
+	/* Dark theme colors */
+	--dark-first-color: #27296d;
+	--dark-second-color: #5e63b6;
+	--dark-third-color: #a393eb;
+	--dark-fourth-color: #f5c7f7;
+
+	/* Flower theme colors */
+	--flower-first-color: #f92a82;
+	--flower-second-color: #fde549;
+	--flower-third-color: #3d2eaf;
+	--flower-fourth-color: #ff7433;
+	--flower-fifth-color: #c585b3;
+
+	/* Active palette (currently set to flower colors) */
+	--first-color: var(--flower-first-color);
+	--second-color: var(--flower-second-color);
+	--third-color: var(--flower-third-color);
+	--fourth-color: var(--flower-fourth-color);
+	--fifth-color: var(--flower-fifth-color);
+
+	/* Layering tokens */
+	--z-popup: 3000;
+	--z-floating-ui: 3100;
+	--z-critical-overlay: 6000;
+	--z-rain-overlay: 2500;
+	--z-sky: 20;
+	--z-sky-title: 21;
+	--z-header: 5000;
+	--z-menu: 5100;
+	--z-menu-content: 5101;
+
+	/* Theme transition + cabin filter tuning */
+	--theme-fade-duration: 560ms;
+	--theme-fade-duration-slow: 3600ms;
+	--theme-fade-ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+	--cabin-dark-filter: brightness(0.50) saturate(0.82) hue-rotate(50deg);
+}
+
+html.light-mode {
+	--text-color: var(--light-text);
+	--bg-color: var(--light-bg);
+}
+
+html.dark-mode {
+	--text-color: var(--dark-text);
+	--bg-color: var(--dark-bg);
+	--first-color: var(--dark-first-color);
+	--second-color: var(--dark-second-color);
+	--third-color: var(--dark-third-color);
+	--fourth-color: var(--dark-fourth-color);
+}

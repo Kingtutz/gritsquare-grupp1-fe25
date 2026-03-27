@@ -1,0 +1,144 @@
+/* Theme system and transitions */
+
+* {
+	margin: 0;
+	padding: 0;
+	font-family: 'Pixelify Sans', sans-serif;
+	font-variant-ligatures: none;
+	font-feature-settings: "liga" 0, "calt" 0;
+}
+
+html,
+body {
+	min-height: 100%;
+}
+
+body {
+	min-height: 100dvh;
+	background-color: var(--theme-second-color);
+}
+
+body::after {
+	content: '';
+	position: fixed;
+	inset: -10%;
+	pointer-events: none;
+	opacity: 0;
+	z-index: 7000;
+	transform: translateX(-8%);
+	transition: opacity var(--theme-fade-duration) var(--theme-fade-ease);
+}
+
+html.theme-transitioning body::after {
+	opacity: 1;
+	animation: theme-wash var(--theme-fade-duration) var(--theme-fade-ease) forwards;
+}
+
+html.theme-to-dark body::after {
+	background: linear-gradient(
+		115deg,
+		rgba(154, 196, 255, 0.14) 0%,
+		rgba(49, 74, 120, 0.36) 52%,
+		rgba(10, 16, 28, 0.56) 100%
+	);
+}
+
+html.theme-to-light body::after {
+	background: linear-gradient(
+		115deg,
+		rgba(218, 252, 211, 0.08) 0%,
+		rgba(162, 214, 152, 0.2) 52%,
+		rgba(255, 247, 224, 0.4) 100%
+	);
+}
+
+@keyframes theme-wash {
+	0% {
+		opacity: 0;
+		transform: translateX(-8%);
+	}
+	40% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0;
+		transform: translateX(8%);
+	}
+}
+
+/* --- Slow (auto day/night cycle) transition ---
+   Overlay goes fully opaque so the background-image swap is invisible,
+   then fades out to reveal the new theme. Feels like an actual sunset/sunrise. */
+
+@keyframes theme-wash-slow {
+	0%   { opacity: 0; }
+	28%  { opacity: 1; }
+	72%  { opacity: 1; }
+	100% { opacity: 0; }
+}
+
+/* Disable the horizontal sweep for slow transitions — just fade in/out */
+html.theme-slow-transition body::after {
+	transform: none;
+}
+
+html.theme-transitioning.theme-slow-transition body::after {
+	animation: theme-wash-slow var(--theme-fade-duration-slow) ease-in-out forwards;
+}
+
+/* Sunset gradient: warm orange → deep purple → near-black night (top → bottom) */
+html.theme-to-dark.theme-slow-transition body::after {
+	background: linear-gradient(
+		180deg,
+		rgba(100, 50, 140, 0.0)  0%,
+		rgba(200, 90, 20,  0.88) 25%,
+		rgba(110, 40, 90,  0.92) 55%,
+		rgba(8,   12, 35,  0.97) 100%
+	);
+}
+
+/* Sunrise gradient: cool dawn blue → golden light → fresh morning green (top → bottom) */
+html.theme-to-light.theme-slow-transition body::after {
+	background: linear-gradient(
+		180deg,
+		rgba(90,  140, 210, 0.85) 0%,
+		rgba(240, 165, 70,  0.88) 30%,
+		rgba(200, 235, 140, 0.80) 60%,
+		rgba(160, 225, 165, 0.72) 100%
+	);
+}
+
+html.dark-mode .theme-toggle-btn {
+	background: #2a2a2a;
+	color: #e0e0e0;
+	border-color: #e0e0e0;
+	box-shadow: 0 4px 0 #e0e0e0;
+}
+
+html.dark-mode .theme-toggle-btn:active {
+	box-shadow: 0 2px 0 #e0e0e0;
+}
+
+html.dark-mode .sky-wrapper {
+	margin: 0;
+	background-image: url(../img/backgounds/pixelnightsky.jpg);
+	width: 100%;
+	height: min(340px, 45vw);
+	min-height: 220px;
+	background-size: cover;
+	background-position: top;
+	background-repeat: no-repeat;
+}
+
+html.dark-mode .garden-wrapper {
+	margin: 0;
+	background-image: url(../img/backgounds/grassnight.png);
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+	min-height: max(800px, calc(100dvh - 220px));
+	position: relative;
+	overflow: hidden;
+	object-fit: contain;
+	z-index: 1;
+}

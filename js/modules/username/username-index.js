@@ -14,6 +14,6 @@ export {
   saveUsername,
   loginUser,
   registerUser
-} from './username/auth.js'
-export { initUsernamePrompt } from './username/prompt.js'
-export { showTermsPopup, ensureTermsAccepted } from './username/terms.js'
+} from './auth.js'
+export { initUsernamePrompt } from './prompt.js'
+export { showTermsPopup, ensureTermsAccepted } from './terms.js'

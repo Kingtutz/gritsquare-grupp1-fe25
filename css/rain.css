@@ -1,0 +1,25 @@
+/* Rain overlay with GIF background and toggle */
+
+.rain-overlay {
+	position: fixed;
+	inset: -30vh 0 0;
+	pointer-events: none;
+	z-index: var(--z-rain-overlay);
+	opacity: 0;
+	visibility: hidden;
+	transition: opacity 180ms ease;
+	overflow: hidden;
+	background-image: url(../img/backgounds/rain.gif);
+	background-repeat: repeat;
+	background-size: 420px auto;
+	background-position: center top;
+}
+
+html.rain-enabled .rain-overlay {
+	opacity: 0.64;
+	visibility: visible;
+}
+
+html.dark-mode.rain-enabled .rain-overlay {
+	opacity: 0.74;
+}

@@ -7,9 +7,17 @@ export function addStyling () {
     'https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap'
 
   const cssFiles = [
-    'styles.css',
+    'variables.css',
+    'theme-transitions.css',
+    'layout.css',
+    'controls.css',
+    'rain.css',
+    'flowers.css',
+    'decorations.css',
+    'info-card.css',
     'footer.css',
-    'header.css',
+    'navigation.css',
+    'hamburger-menu.css',
     'formstyling.css',
     'rabbit.css',
     'cabin.css',

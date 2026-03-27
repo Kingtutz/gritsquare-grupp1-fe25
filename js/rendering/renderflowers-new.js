@@ -1,15 +1,20 @@
 /**
- * Flower rendering module - Main index exports
+ * Flower rendering module - Main index
  *
- * This module re-exports functions from focused submodules for better maintainability.
- * The original monolithic implementation has been split into:
- * - flower-images.js: Image selection & theme syncing
+ * Re-exports flower rendering functions from focused submodules.
+ * This file acts as a clean facade/barrel export for better maintainability.
+ *
+ * Submodules:
+ * - flower-images.js: Flower image selection & theme syncing
  * - flower-positioning.js: Position calculations & collision detection
- * - flower-render.js: Rendering logic (stub - can be expanded)
+ * - flower-render.js: Core rendering & element creation
  */
 
+// Primary exports
 export { renderFlowers } from './flowers/flower-render.js'
 export { syncRenderedFlowerTheme } from './flowers/flower-images.js'
+
+// Image-related utilities
 export {
   isDarkThemeActive,
   getFlowerImagesForCurrentTheme,
@@ -17,6 +22,8 @@ export {
   getFlowerImageForSeed,
   extractFlowerVariantNumber
 } from './flowers/flower-images.js'
+
+// Position-related utilities
 export {
   getFixedFlowerPosition,
   isOverlappingFlowers,

@@ -1,0 +1,103 @@
+/* Page layout: garden wrapper, sky wrapper, and base structure */
+
+.garden-wrapper {
+	margin: 0;
+	background-image: url(../img/backgounds/pixelgarden.png);
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+	min-height: max(800px, calc(100dvh - 220px));
+	position: relative;
+	overflow: hidden;
+	object-fit: contain;
+	z-index: 1;
+}
+
+.garden-wrapper::before {
+	content: '';
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+	height: 20px;
+	pointer-events: none;
+	z-index: 1;
+	background: linear-gradient(
+		to bottom,
+		rgba(56, 98, 46, 0.5),
+		rgba(56, 98, 46, 0.14),
+		rgba(56, 98, 46, 0)
+	);
+}
+
+html.dark-mode .garden-wrapper::before {
+	background: linear-gradient(
+		to bottom,
+		rgba(34, 63, 41, 0.58),
+		rgba(34, 63, 41, 0.2),
+		rgba(34, 63, 41, 0)
+	);
+}
+
+.sky-wrapper {
+	margin: 0;
+	background-image: url(../img/backgounds/skybackground.png);
+	width: 100%;
+	height: min(340px, 45vw);
+	min-height: 220px;
+	background-size: cover;
+	background-position: bottom;
+	background-repeat: no-repeat;
+	color: black;
+	position: relative;
+	overflow: visible;
+	z-index: var(--z-sky);
+}
+
+.sky-wrapper::after {
+	content: '';
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: -16px;
+	height: 76px;
+	pointer-events: none;
+	z-index: 2;
+	background:
+		url(../img/sprite-bush-light.png) repeat-x left bottom,
+		url(../img/sprite-bush-light.png) repeat-x -36px bottom,
+		linear-gradient(
+			to bottom,
+			rgba(0, 0, 0, 0) 0%,
+			rgba(36, 61, 29, 0.16) 36%,
+			rgba(36, 61, 29, 0.4) 100%
+		);
+	background-size: auto 50px, auto 68px, 100% 100%;
+	background-position: left bottom, -36px bottom, left top;
+	box-shadow: 0 2px 0 rgba(36, 61, 29, 0.35);
+	image-rendering: pixelated;
+}
+
+html.dark-mode .sky-wrapper::after {
+	background:
+		url(../img/sprite-bush-light.png) repeat-x left bottom,
+		url(../img/sprite-bush-light.png) repeat-x -36px bottom,
+		linear-gradient(
+			to bottom,
+			rgba(16, 22, 34, 0) 0%,
+			rgba(16, 22, 34, 0.2) 36%,
+			rgba(16, 22, 34, 0.56) 100%
+		);
+	background-size: auto 50px, auto 68px, 100% 100%;
+	background-position: left bottom, -36px bottom, left top;
+	filter: brightness(0.52) saturate(0.8) hue-rotate(32deg);
+	box-shadow: 0 2px 0 rgba(10, 16, 20, 0.48);
+}
+
+.sky-wrapper a,
+.sky-wrapper a:visited,
+.sky-wrapper a:hover,
+.sky-wrapper a:active {
+	color: black;
+	text-decoration: none;
+}
