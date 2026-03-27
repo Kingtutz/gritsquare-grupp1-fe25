@@ -86,6 +86,13 @@ export function initTheme () {
       updateRainVolumeControl()
     })
 
+    window.addEventListener('garden:audio-theme-changed', e => {
+      const nextTheme = e?.detail?.theme
+      if (nextTheme) {
+        updateToggleButton(nextTheme)
+      }
+    })
+
     window.addEventListener('garden:header-rendered', () => {
       mountThemeControls()
     })

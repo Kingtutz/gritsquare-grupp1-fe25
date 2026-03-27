@@ -410,7 +410,7 @@ export function openCabinPopup () {
       username: eventUsername,
       hubContainer: eventHub
     } = event.detail
-    showPostDetail(postData, postId, eventUsername, eventHubContainer)
+    showPostDetail(postData, postId, eventUsername, eventHub || hubContainer)
   }
 
   window.addEventListener('cabin:showPostDetail', handleShowPostDetail)
