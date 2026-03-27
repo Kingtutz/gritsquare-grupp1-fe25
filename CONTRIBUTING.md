@@ -12,7 +12,10 @@
 3. Be able to answer a post, this should appear as a comment under the original post.
 4. Be able to like/dislike posts and answers. 
 5. Add a postbox that will give you notifications if you have recieved a comment on one of your posts or answers. This should be right outside your cabin (if cabin is implemeted).
-6. 
+6. sound for deleting a post
+7. sound when a plost is "planted"
+8. weather feature
+9.
 
 
 ## Features we want!
